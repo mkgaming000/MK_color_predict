@@ -15,6 +15,9 @@ jobs:
     name: Build, Test, Lint
     runs-on: ubuntu-latest
     timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: AIColorPredictionAnalytics
 
     steps:
       - name: Checkout
@@ -58,7 +61,7 @@ jobs:
         if: always()
         with:
           name: app-debug-apk
-          path: app/build/outputs/apk/debug/*.apk
+          path: AIColorPredictionAnalytics/app/build/outputs/apk/debug/*.apk
           retention-days: 30
 
       - name: Upload Release APK
@@ -66,7 +69,7 @@ jobs:
         if: always()
         with:
           name: app-release-apk
-          path: app/build/outputs/apk/release/*.apk
+          path: AIColorPredictionAnalytics/app/build/outputs/apk/release/*.apk
           retention-days: 30
 
       - name: Upload Test Results
@@ -75,6 +78,6 @@ jobs:
         with:
           name: test-results
           path: |
-            app/build/reports/tests/testDebugUnitTest/
-            app/build/reports/lint-results-debug.html
+            AIColorPredictionAnalytics/app/build/reports/tests/testDebugUnitTest/
+            AIColorPredictionAnalytics/app/build/reports/lint-results-debug.html
           retention-days: 14
