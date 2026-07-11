@@ -29,6 +29,10 @@ android {
         release {
             isMinifyEnabled = true
             isShrinkResources = true
+            // Sign with the debug key so CI can produce an installable release
+            // APK without requiring a real signing key. Replace with a proper
+            // signing config before publishing to Play Store.
+            signingConfig = signingConfigs.getByName("debug")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
