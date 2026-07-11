@@ -10,6 +10,7 @@ import com.aicolorpredict.analytics.domain.model.Round
 import com.aicolorpredict.analytics.domain.usecase.AddRoundUseCase
 import com.aicolorpredict.analytics.domain.usecase.PredictUseCase
 import com.aicolorpredict.analytics.domain.usecase.UpdateModelPerformanceUseCase
+import android.util.Log
 import com.aicolorpredict.analytics.metrics.MetricsCalculator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -73,6 +74,7 @@ class DashboardViewModel @Inject constructor(
      * *next* round.
      */
     fun quickAddRound(number: Int) {
+        Log.d("DashboardVM", "Quick add round: $number")
         viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true, errorMessage = null)
             try {
@@ -87,6 +89,7 @@ class DashboardViewModel @Inject constructor(
     }
 
     fun refreshPrediction() {
+        Log.d("DashboardVM", "Refresh prediction button clicked")
         viewModelScope.launch {
             _state.value = _state.value.copy(isLoading = true, errorMessage = null)
             try {

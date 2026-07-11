@@ -2,6 +2,7 @@ package com.aicolorpredict.analytics.ui.settings
 
 import android.app.Application
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.aicolorpredict.analytics.data.backup.BackupRestoreManager
@@ -67,6 +68,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun importCsv(uri: Uri) {
+        Log.d("SettingsVM", "Import CSV: $uri")
         viewModelScope.launch(dispatchers.io) {
             try {
                 val rounds = getApplication<Application>().contentResolver.openInputStream(uri).use { CsvImporter.parse(it!!) }
@@ -79,6 +81,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun importJson(uri: Uri) {
+        Log.d("SettingsVM", "Import JSON: $uri")
         viewModelScope.launch(dispatchers.io) {
             try {
                 val rounds = getApplication<Application>().contentResolver.openInputStream(uri).use { JsonImporter.parse(it!!) }
@@ -91,6 +94,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun exportCsv() {
+        Log.d("SettingsVM", "Export CSV clicked")
         viewModelScope.launch(dispatchers.io) {
             try {
                 val rounds = roundRepo.all()
@@ -109,6 +113,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun exportJson() {
+        Log.d("SettingsVM", "Export JSON clicked")
         viewModelScope.launch(dispatchers.io) {
             try {
                 val rounds = roundRepo.all()
@@ -127,6 +132,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun backup(uri: Uri) {
+        Log.d("SettingsVM", "Backup to: $uri")
         viewModelScope.launch(dispatchers.io) {
             try {
                 getApplication<Application>().contentResolver.openOutputStream(uri).use { backupRestore.export(it!!) }
@@ -138,6 +144,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun restore(uri: Uri) {
+        Log.d("SettingsVM", "Restore from: $uri")
         viewModelScope.launch(dispatchers.io) {
             try {
                 getApplication<Application>().contentResolver.openInputStream(uri).use { backupRestore.restore(it!!) }
@@ -153,6 +160,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun clearAll() {
+        Log.d("SettingsVM", "Clear all data confirmed")
         viewModelScope.launch(dispatchers.io) {
             try {
                 roundRepo.clearAll()

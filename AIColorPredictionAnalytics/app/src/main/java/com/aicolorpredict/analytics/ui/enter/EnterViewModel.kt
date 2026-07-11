@@ -2,6 +2,7 @@ package com.aicolorpredict.analytics.ui.enter
 
 import android.app.Application
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.aicolorpredict.analytics.data.repository.RoundRepository
@@ -47,6 +48,7 @@ class EnterViewModel @Inject constructor(
     val state: StateFlow<EnterUiState> = _state.asStateFlow()
 
     fun selectNumber(n: Int) {
+        Log.d("EnterVM", "Number selected: $n")
         _state.value = _state.value.copy(selectedNumber = n, saved = false, errorMessage = null)
     }
 
@@ -58,28 +60,40 @@ class EnterViewModel @Inject constructor(
         _state.value = _state.value.copy(roundNumber = v.filter { it.isDigit() }.take(10))
     }
 
+    fun cancel() {
+        Log.d("EnterVM", "Cancel — clearing selection")
+        _state.value = _state.value.copy(selectedNumber = null, saved = false, errorMessage = null)
+    }
+
     fun save() {
-        val number = _state.value.selectedNumber ?: run {
+        val number = _state.value.selectedNumber
+        if (number == null) {
+            Log.w("EnterVM", "Save called with no number selected")
             _state.value = _state.value.copy(errorMessage = "Select a number first")
             return
         }
+        Log.d("EnterVM", "Save button clicked — number=$number, epochMs=${_state.value.epochMs}")
         viewModelScope.launch {
             _state.value = _state.value.copy(isSaving = true, errorMessage = null, saved = false)
             try {
+                Log.d("EnterVM", "Database insert started")
                 addRoundUseCase(number, _state.value.epochMs)
+                Log.d("EnterVM", "Database insert completed")
+                Log.d("EnterVM", "Updating model performance...")
                 updatePerformanceUseCase()
-                // Generate a fresh prediction for the new "next" round so the
-                // dashboard is immediately up to date when the user navigates.
+                Log.d("EnterVM", "Generating fresh prediction...")
                 predictUseCase()
+                Log.d("EnterVM", "Prediction refreshed")
                 _state.value = _state.value.copy(isSaving = false, saved = true)
             } catch (t: Throwable) {
+                Log.e("EnterVM", "Save failed", t)
                 _state.value = _state.value.copy(isSaving = false, errorMessage = t.message ?: "Save failed")
             }
         }
     }
 
     fun resetSaved() {
-        _state.value = _state.value.copy(saved = false, selectedNumber = null)
+        _state.value = _state.value.copy(saved = false)
     }
 
     fun consumeError() {

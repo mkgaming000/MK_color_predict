@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.aicolorpredict.analytics.data.repository.PredictionRepository
 import com.aicolorpredict.analytics.data.repository.RoundRepository
 import com.aicolorpredict.analytics.domain.model.ModelOutput
+import android.util.Log
 import com.aicolorpredict.analytics.domain.model.Round
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -45,6 +46,7 @@ class HistoryViewModel @Inject constructor(
     }
 
     fun toggleExpand(roundId: Long) {
+        Log.d("HistoryVM", "Toggle expand: roundId=$roundId")
         if (_state.value.expandedRoundId == roundId) {
             _state.value = _state.value.copy(expandedRoundId = null, predictionsForExpanded = emptyList())
         } else {

@@ -196,7 +196,7 @@ fun EnterScreen(
             // Save / Cancel
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 OutlinedButton(
-                    onClick = { vm.selectNumber(state.selectedNumber ?: -1).let { vm.resetSaved() } },
+                    onClick = { vm.cancel() },
                     modifier = Modifier.weight(1f)
                 ) {
                     Icon(Icons.Filled.Close, contentDescription = null, modifier = Modifier.size(18.dp))

@@ -1,6 +1,6 @@
 package com.aicolorpredict.analytics.ui.components
 
-import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -20,9 +19,12 @@ import androidx.compose.ui.unit.dp
 /**
  * Glassmorphism surface — the primary container across the app.
  *
- * Vertical gradient + 1dp hairline border. Uses `matchParentSize` for the
- * border overlay so it actually renders (a plain empty-content Surface would
- * collapse to 0×0).
+ * Vertical gradient + 1dp hairline border drawn directly on the content
+ * via [Modifier.border]. This is critical: a previous implementation used a
+ * second `Surface` overlay with `matchParentSize()` to draw the border, but
+ * that overlay intercepted ALL touch events, making every button inside every
+ * GlassCard non-responsive. Drawing the border inline on the content Box
+ * eliminates the touch-blocking overlay entirely.
  */
 @Composable
 fun GlassCard(
@@ -35,41 +37,28 @@ fun GlassCard(
     val surfaceColor = MaterialTheme.colorScheme.surface
     val surfaceVariant = MaterialTheme.colorScheme.surfaceVariant
     val borderColor = MaterialTheme.colorScheme.onSurface.copy(alpha = borderAlpha)
+    val shape = RoundedCornerShape(cornerRadius)
 
-    Box(modifier = modifier.fillMaxWidth()) {
-        Surface(
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(shape)
+            .background(
+                Brush.verticalGradient(
+                    colors = listOf(
+                        surfaceColor.copy(alpha = 0.78f),
+                        surfaceVariant.copy(alpha = 0.55f)
+                    )
+                )
+            )
+            .border(1.dp, borderColor, shape)
+    ) {
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(cornerRadius)),
-            color = Color.Transparent
+                .padding(contentPadding)
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(
-                        Brush.verticalGradient(
-                            colors = listOf(
-                                surfaceColor.copy(alpha = 0.78f),
-                                surfaceVariant.copy(alpha = 0.55f)
-                            )
-                        )
-                    )
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(contentPadding)
-                ) {
-                    content()
-                }
-            }
+            content()
         }
-        Surface(
-            modifier = Modifier
-                .matchParentSize()
-                .clip(RoundedCornerShape(cornerRadius)),
-            color = Color.Transparent,
-            border = BorderStroke(1.dp, borderColor)
-        ) {}
     }
 }

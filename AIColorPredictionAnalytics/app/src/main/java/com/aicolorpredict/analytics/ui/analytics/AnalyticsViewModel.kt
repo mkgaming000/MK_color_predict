@@ -7,6 +7,7 @@ import com.aicolorpredict.analytics.data.repository.RoundRepository
 import com.aicolorpredict.analytics.domain.model.AccuracyMetrics
 import com.aicolorpredict.analytics.feature.TransitionAnalytics
 import com.aicolorpredict.analytics.domain.model.TransitionStats
+import android.util.Log
 import com.aicolorpredict.analytics.metrics.MetricsCalculator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -65,6 +66,7 @@ class AnalyticsViewModel @Inject constructor(
     }
 
     fun setTransitionFrom(n: Int) {
+        Log.d("AnalyticsVM", "Transition from: $n")
         viewModelScope.launch {
             _state.value = _state.value.copy(transitionFrom = n)
             val history = roundRepo.lastN(2000).map { it.number }
