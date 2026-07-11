@@ -18,7 +18,7 @@ object Activations {
     fun tanh(x: Double): Double = when {
         x > 20.0 -> 1.0
         x < -20.0 -> -1.0
-        else -> tanh(x)
+        else -> kotlin.math.tanh(x)
     }
 
     fun relu(x: Double): Double = if (x > 0) x else 0.0
