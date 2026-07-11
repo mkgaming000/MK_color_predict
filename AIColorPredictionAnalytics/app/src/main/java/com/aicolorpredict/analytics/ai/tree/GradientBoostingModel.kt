@@ -51,7 +51,7 @@ open class GradientBoostingModel(
 
         // Current logits = 0 (we start from uniform prior).
         val logits = Array(xs.size) { DoubleArray(10) }
-        val trees = Array(nEstimators) { ArrayList<DecisionTree>(10) }
+        val trees = Array(nEstimators) { ArrayList<DecisionTreeRegressor>(10) }
 
         for (round in 0 until nEstimators) {
             // Compute softmax probabilities and gradients.

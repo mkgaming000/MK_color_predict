@@ -5,6 +5,7 @@ import com.aicolorpredict.analytics.data.local.entity.ModelPerformanceEntity
 import com.aicolorpredict.analytics.data.local.entity.PredictionEntity
 import com.aicolorpredict.analytics.data.local.entity.RoundEntity
 import com.aicolorpredict.analytics.util.AppDispatchers
+import androidx.room.withTransaction
 import kotlinx.coroutines.withContext
 import java.io.InputStream
 import java.io.OutputStream
@@ -36,7 +37,7 @@ class BackupRestoreManager @Inject constructor(
 
     suspend fun restore(input: InputStream) = withContext(dispatchers.io) {
         val bundle = BackupManager.read(input)
-        db.runInTransaction {
+        db.withTransaction {
             db.roundDao().clearAll()
             db.predictionDao().clearAll()
             db.modelPerformanceDao().clearAll()

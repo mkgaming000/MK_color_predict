@@ -28,7 +28,7 @@ fun ModelOutput.toEntity(roundId: Long): PredictionEntity = PredictionEntity(
 
 fun PredictionEntity.toModelOutput(): ModelOutput {
     // Parse number probabilities defensively — back-fill missing entries with 0.
-    val np = IntArray(10)
+    val np = DoubleArray(10)
     if (numberProbabilities.isNotBlank()) {
         numberProbabilities.split(',').forEach { e ->
             val parts = e.split('=')

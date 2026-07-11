@@ -68,7 +68,7 @@ class TemporalCnnModel(
         // Global average pool over the time axis
         val pooled = DoubleArray(channels)
         for (t in layer.indices) for (c in 0 until channels) pooled[c] += layer[t][c]
-        for (c in 0 until channels) pooled[c] /= layer.size
+        for (c in 0 until channels) pooled[c] = pooled[c] / layer.size.toDouble()
 
         val logits = DoubleArray(vocab)
         for (j in 0 until vocab) {
@@ -143,7 +143,7 @@ class TemporalCnnModel(
         if (window.size < 2) return
         var pooled = DoubleArray(channels)
         for (t in window.indices) for (c in 0 until channels) pooled[c] += embed[window[t], c]
-        for (c in 0 until channels) pooled[c] /= window.size
+        for (c in 0 until channels) pooled[c] = pooled[c] / window.size.toDouble()
 
         val target = oneHot(window.last())
         val logits = DoubleArray(vocab)

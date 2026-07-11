@@ -93,7 +93,7 @@ object TransitionAnalytics {
             // Gap tracking: distance from the previous `from -> next` event.
             if (gapLastSeen[next] >= 0) {
                 val gap = i - gapLastSeen[next]
-                gapSums[next] += gap
+                gapSums[next] = gapSums[next] + gap.toDouble()
                 gapCounts[next]++
             }
             gapLastSeen[next] = i

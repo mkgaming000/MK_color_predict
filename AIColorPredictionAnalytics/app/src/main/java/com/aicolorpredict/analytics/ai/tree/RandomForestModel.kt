@@ -55,7 +55,7 @@ class RandomForestModel(
             val p = tree.predict(x)
             for (j in 0..9) aggregated[j] += p[j]
         }
-        for (j in 0..9) aggregated[j] /= nTrees
+        for (j in 0..9) aggregated[j] = aggregated[j] / nTrees.toDouble()
         val probs = ModelUtils.normalise(aggregated)
 
         val top = probs.indices.maxByOrNull { probs[it] } ?: 0

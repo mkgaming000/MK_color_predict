@@ -82,7 +82,7 @@ class TransformerModel(
             var max = Double.NEGATIVE_INFINITY
             for (j in 0..i) {
                 var s = 0.0
-                for (k in 0 until dModel) s += q[i, k] * k[j, k]
+                for (dim in 0 until dModel) s += q[i, dim] * k[j, dim]
                 weights[j] = s * scale
                 if (weights[j] > max) max = weights[j]
             }
@@ -96,7 +96,7 @@ class TransformerModel(
             }
         }
         // FFN on the last position only (we only need the final hidden state).
-        val last = IntArray(dModel) { kk -> attended[window.size - 1, kk] }
+        val last = DoubleArray(dModel) { kk -> attended[window.size - 1, kk] }
         val hidden = DoubleArray(dModel)
         for (j in 0 until 2 * dModel) {
             var pre = b1[j]

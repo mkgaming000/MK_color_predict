@@ -123,7 +123,7 @@ object MetricsCalculator {
     fun rollingAccuracy(outputs: List<ModelOutput>, actuals: List<Int>, window: Int = 100): Double {
         require(outputs.size == actuals.size)
         if (outputs.isEmpty()) return 0.0
-        val tail = outputs.indices.takeLast(minOf(window, outputs.size))
+        val tail = outputs.indices.toList().takeLast(minOf(window, outputs.size))
         var hits = 0
         for (i in tail) if (outputs[i].topPick == actuals[i]) hits++
         return hits.toDouble() / tail.size
