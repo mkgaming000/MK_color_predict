@@ -10,7 +10,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.aicolorpredict.analytics.ui.nav.AICpNavHost
-import com.aicolorpredict.analytics.ui.theme.AICpTheme
+import com.aicolorpredict.analytics.ui.theme.AICpAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -26,7 +26,7 @@ class MainActivity : ComponentActivity() {
             navigationBarStyle = SystemBarStyle.auto(Color.Transparent.value.toInt(), Color.Transparent.value.toInt())
         )
         setContent {
-            AICpTheme {
+            AICpAppTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
                     AICpNavHost()
                 }

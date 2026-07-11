@@ -21,13 +21,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.aicolorpredict.analytics.ui.analytics.AnalyticsScreen
 import com.aicolorpredict.analytics.ui.dashboard.DashboardScreen
-import com.aicolorpredict.analytics.ui.data.DataScreen
+import com.aicolorpredict.analytics.ui.enter.EnterScreen
 import com.aicolorpredict.analytics.ui.history.HistoryScreen
-import com.aicolorpredict.analytics.ui.models.ModelsScreen
-import com.aicolorpredict.analytics.ui.prediction.PredictionScreen
-import com.aicolorpredict.analytics.ui.search.SearchScreen
 import com.aicolorpredict.analytics.ui.settings.SettingsScreen
-import com.aicolorpredict.analytics.ui.transition.TransitionScreen
 
 @Composable
 fun AICpNavHost() {
@@ -38,21 +34,10 @@ fun AICpNavHost() {
     Scaffold(
         bottomBar = {
             NavigationBar(
-                containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f),
-                tonalElevation = 0.dp
+                containerColor = MaterialTheme.colorScheme.surface,
+                tonalElevation = 3.dp
             ) {
-                val visible = listOf(
-                    AICpDestination.DASHBOARD,
-                    AICpDestination.PREDICTION,
-                    AICpDestination.HISTORY,
-                    AICpDestination.ANALYTICS,
-                    AICpDestination.TRANSITION,
-                    AICpDestination.MODELS,
-                    AICpDestination.SEARCH,
-                    AICpDestination.DATA,
-                    AICpDestination.SETTINGS
-                )
-                visible.forEach { d ->
+                AICpDestination.ALL.forEach { d ->
                     NavigationBarItem(
                         selected = currentRoute == d.route,
                         onClick = {
@@ -62,14 +47,14 @@ fun AICpNavHost() {
                                 restoreState = true
                             }
                         },
-                        icon = { Icon(d.icon, contentDescription = d.label, modifier = Modifier.size(22.dp)) },
-                        label = { Text(d.label, style = MaterialTheme.typography.labelSmall) },
+                        icon = { Icon(d.icon, contentDescription = d.label, modifier = Modifier.size(24.dp)) },
+                        label = { Text(d.label, style = MaterialTheme.typography.labelMedium) },
                         colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = MaterialTheme.colorScheme.primary,
-                            selectedTextColor = MaterialTheme.colorScheme.primary,
+                            selectedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                            selectedTextColor = MaterialTheme.colorScheme.onSurface,
                             unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
                             unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                            indicatorColor = Color.Transparent
+                            indicatorColor = MaterialTheme.colorScheme.primaryContainer
                         )
                     )
                 }
@@ -82,13 +67,9 @@ fun AICpNavHost() {
             modifier = Modifier.padding(padding)
         ) {
             composable(AICpDestination.DASHBOARD.route) { DashboardScreen() }
-            composable(AICpDestination.PREDICTION.route) { PredictionScreen() }
+            composable(AICpDestination.ENTER.route) { EnterScreen() }
             composable(AICpDestination.HISTORY.route) { HistoryScreen() }
             composable(AICpDestination.ANALYTICS.route) { AnalyticsScreen() }
-            composable(AICpDestination.TRANSITION.route) { TransitionScreen() }
-            composable(AICpDestination.MODELS.route) { ModelsScreen() }
-            composable(AICpDestination.SEARCH.route) { SearchScreen() }
-            composable(AICpDestination.DATA.route) { DataScreen() }
             composable(AICpDestination.SETTINGS.route) { SettingsScreen() }
         }
     }

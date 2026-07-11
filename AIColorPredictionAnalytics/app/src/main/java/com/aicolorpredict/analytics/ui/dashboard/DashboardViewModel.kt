@@ -7,6 +7,7 @@ import com.aicolorpredict.analytics.data.repository.RoundRepository
 import com.aicolorpredict.analytics.domain.model.AccuracyMetrics
 import com.aicolorpredict.analytics.domain.model.Prediction
 import com.aicolorpredict.analytics.domain.model.Round
+import com.aicolorpredict.analytics.domain.usecase.AddRoundUseCase
 import com.aicolorpredict.analytics.domain.usecase.PredictUseCase
 import com.aicolorpredict.analytics.domain.usecase.UpdateModelPerformanceUseCase
 import com.aicolorpredict.analytics.metrics.MetricsCalculator
@@ -27,19 +28,29 @@ data class DashboardUiState(
     val errorMessage: String? = null
 )
 
+/**
+ * Dashboard ViewModel.
+ *
+ * Owns the "current prediction" surface for the home screen. Also exposes a
+ * [quickAddRound] method so the home screen's quick-add button can save a new
+ * round and immediately retrain — this avoids a round-trip to the Enter screen
+ * for the common case of "the result just came in, log it now".
+ */
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
     private val roundRepo: RoundRepository,
     private val predictionRepo: PredictionRepository,
     private val predictUseCase: PredictUseCase,
+    private val addRoundUseCase: AddRoundUseCase,
     private val updatePerformanceUseCase: UpdateModelPerformanceUseCase
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(DashboardUiState(isLoading = true))
+    private val _state = MutableStateFlow(DashboardUiState(isLoading = false))
     val state: StateFlow<DashboardUiState> = _state.asStateFlow()
 
     init {
         viewModelScope.launch {
+            // Observe recent rounds so the dashboard updates live.
             roundRepo.observeLastN(10).collectLatest { rounds ->
                 val total = roundRepo.count()
                 _state.value = _state.value.copy(
@@ -48,6 +59,29 @@ class DashboardViewModel @Inject constructor(
                     isLoading = false
                 )
                 refreshMetrics()
+                // Auto-generate a prediction if we don't have one yet.
+                if (_state.value.latestPrediction == null && rounds.isNotEmpty()) {
+                    refreshPrediction()
+                }
+            }
+        }
+    }
+
+    /**
+     * Quick-add a round from the dashboard. Resolves the previous prediction,
+     * updates model performance, then generates a fresh prediction for the
+     * *next* round.
+     */
+    fun quickAddRound(number: Int) {
+        viewModelScope.launch {
+            _state.value = _state.value.copy(isLoading = true, errorMessage = null)
+            try {
+                addRoundUseCase(number)
+                updatePerformanceUseCase()
+                refreshPrediction()
+                refreshMetrics()
+            } catch (t: Throwable) {
+                _state.value = _state.value.copy(isLoading = false, errorMessage = t.message ?: "Unknown error")
             }
         }
     }

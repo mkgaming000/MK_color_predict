@@ -25,7 +25,12 @@ val LightOnSurface = Color(0xFF111418)
 val LightOnSurfaceMuted = Color(0xFF5A6273)
 val LightOutline = Color(0xFFD6DCE5)
 
-// Semantic for color mapping
+// Semantic for color mapping — used across all screens
 val NumberGreen = Color(0xFF2EBE6E)
 val NumberRed = Color(0xFFE25757)
 val NumberViolet = Color(0xFF9C6BFF)
+
+// Extended semantic colors
+val SuccessGreen = Color(0xFF4CAF50)
+val WarningAmber = Color(0xFFFFA726)
+val ErrorRed = Color(0xFFEF5350)

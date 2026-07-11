@@ -6,7 +6,6 @@ import com.aicolorpredict.analytics.data.repository.PredictionRepository
 import com.aicolorpredict.analytics.data.repository.RoundRepository
 import com.aicolorpredict.analytics.domain.model.ModelOutput
 import com.aicolorpredict.analytics.domain.model.Round
-import com.aicolorpredict.analytics.util.AppDispatchers
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,16 +18,15 @@ data class HistoryUiState(
     val isLoading: Boolean = false,
     val rounds: List<Round> = emptyList(),
     val totalRounds: Int = 0,
-    val selectedRoundId: Long? = null,
-    val selectedPredictions: List<ModelOutput> = emptyList(),
+    val expandedRoundId: Long? = null,
+    val predictionsForExpanded: List<ModelOutput> = emptyList(),
     val errorMessage: String? = null
 )
 
 @HiltViewModel
 class HistoryViewModel @Inject constructor(
     private val roundRepo: RoundRepository,
-    private val predictionRepo: PredictionRepository,
-    private val dispatchers: AppDispatchers
+    private val predictionRepo: PredictionRepository
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(HistoryUiState(isLoading = true))
@@ -46,10 +44,19 @@ class HistoryViewModel @Inject constructor(
         }
     }
 
-    fun select(roundId: Long) {
-        viewModelScope.launch {
-            val preds = predictionRepo.getByRound(roundId)
-            _state.value = _state.value.copy(selectedRoundId = roundId, selectedPredictions = preds)
+    fun toggleExpand(roundId: Long) {
+        if (_state.value.expandedRoundId == roundId) {
+            _state.value = _state.value.copy(expandedRoundId = null, predictionsForExpanded = emptyList())
+        } else {
+            _state.value = _state.value.copy(expandedRoundId = roundId)
+            viewModelScope.launch {
+                try {
+                    val preds = predictionRepo.getByRound(roundId)
+                    _state.value = _state.value.copy(predictionsForExpanded = preds)
+                } catch (t: Throwable) {
+                    _state.value = _state.value.copy(errorMessage = t.message)
+                }
+            }
         }
     }
 }

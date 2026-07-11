@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.matchParentSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -18,18 +19,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 /**
- * Glassmorphism surface used as the primary container across the app.
+ * Glassmorphism surface — the primary container across the app.
  *
- * The "glass" effect is a subtle vertical gradient over a translucent
- * background, plus a 1dp hairline border at low opacity. We deliberately avoid
- * a real blur backdrop (RenderEffect.createBlurEffect) because it's API 31+;
- * on older devices the gradient + border alone reads as "frosted" enough.
+ * Vertical gradient + 1dp hairline border. Uses `matchParentSize` for the
+ * border overlay so it actually renders (a plain empty-content Surface would
+ * collapse to 0×0).
  */
 @Composable
 fun GlassCard(
     modifier: Modifier = Modifier,
-    borderAlpha: Float = 0.12f,
+    borderAlpha: Float = 0.10f,
     contentPadding: androidx.compose.ui.unit.Dp = 16.dp,
+    cornerRadius: androidx.compose.ui.unit.Dp = 20.dp,
     content: @Composable ColumnScope.() -> Unit
 ) {
     val surfaceColor = MaterialTheme.colorScheme.surface
@@ -40,7 +41,7 @@ fun GlassCard(
         Surface(
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(22.dp)),
+                .clip(RoundedCornerShape(cornerRadius)),
             color = Color.Transparent
         ) {
             Box(
@@ -49,7 +50,7 @@ fun GlassCard(
                     .background(
                         Brush.verticalGradient(
                             colors = listOf(
-                                surfaceColor.copy(alpha = 0.72f),
+                                surfaceColor.copy(alpha = 0.78f),
                                 surfaceVariant.copy(alpha = 0.55f)
                             )
                         )
@@ -64,13 +65,10 @@ fun GlassCard(
                 }
             }
         }
-        // Hairline border overlay — matchParentSize so it covers the gradient
-        // Surface below. Without matchParentSize the empty-content Surface would
-        // collapse to 0×0 and the border would never render.
         Surface(
             modifier = Modifier
                 .matchParentSize()
-                .clip(RoundedCornerShape(22.dp)),
+                .clip(RoundedCornerShape(cornerRadius)),
             color = Color.Transparent,
             border = BorderStroke(1.dp, borderColor)
         ) {}
