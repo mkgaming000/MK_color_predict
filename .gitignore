@@ -1,2 +1,23 @@
+# Build artifacts
+AIColorPredictionAnalytics/.gradle/
+AIColorPredictionAnalytics/build/
+AIColorPredictionAnalytics/app/build/
+AIColorPredictionAnalytics/local.properties
+
+# Environment files (never commit)
+.env
+.env.local
+
+# IDE
+.idea/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Non-project directories
 skills/
+download/
+upload/
 node_modules/

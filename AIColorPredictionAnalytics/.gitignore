@@ -1,0 +1,47 @@
+# Gradle
+.gradle/
+build/
+app/build/
+*/build/
+
+# Local configuration (SDK path, etc.)
+local.properties
+
+# IntelliJ / Android Studio
+.idea/
+*.iml
+*.iws
+*.ipr
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Kotlin
+*.kotlin_metadata
+
+# Keystore files (never commit signing keys)
+*.jks
+*.keystore
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# APK / AAB / mapping files
+*.apk
+*.aab
+*.ap_
+*.dex
+*.class
+
+# Java / Kotlin compiler output
+*.class
+
+# Maven
+target/
+
+# Gradle wrapper JAR (this SHOULD be committed — keep it)
+!gradle/wrapper/gradle-wrapper.jar
