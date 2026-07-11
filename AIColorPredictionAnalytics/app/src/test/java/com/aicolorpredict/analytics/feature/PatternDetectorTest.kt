@@ -33,7 +33,7 @@ class PatternDetectorTest {
 
     @Test
     fun `summarise returns non-empty string for normal history`() {
-        val history = (1..30).toList()
+        val history = (1..30).map { it % 10 }
         val s = PatternDetector.summarise(history)
         assertThat(s).isNotEmpty()
     }

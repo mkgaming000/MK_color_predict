@@ -180,11 +180,13 @@ class LstmModel(
     }
 
     private fun matVec(W: Matrix, x: DoubleArray, b: DoubleArray): DoubleArray {
-        val out = DoubleArray(W.rows)
-        for (r in 0 until W.rows) {
-            var s = b[r]
-            for (c in 0 until W.cols) s += W[r, c] * x[c]
-            out[r] = s
+        // W has dimensions (inputDim × outputDim) where inputDim = W.rows, outputDim = W.cols.
+        // output[j] = b[j] + sum_i(W[i, j] * x[i])  for j in 0 until W.cols
+        val out = DoubleArray(W.cols)
+        for (j in 0 until W.cols) {
+            var s = b[j]
+            for (i in 0 until W.rows) s += W[i, j] * x[i]
+            out[j] = s
         }
         return out
     }
