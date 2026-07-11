@@ -1,0 +1,29 @@
+R_DEF: Internal format may change without notice
+local
+color ic_launcher_background
+drawable ic_launcher_foreground
+mipmap ic_launcher
+mipmap ic_launcher_round
+string action_add_round
+string action_backup
+string action_clear_all
+string action_export
+string action_import
+string action_predict
+string action_restore
+string app_name
+string disclaimer_long
+string disclaimer_short
+string empty_state_subtitle
+string empty_state_title
+string nav_analytics
+string nav_dashboard
+string nav_data
+string nav_history
+string nav_models
+string nav_prediction
+string nav_search
+string nav_settings
+string nav_transition
+style Theme.AICp
+xml file_paths
