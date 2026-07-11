@@ -1,0 +1,53 @@
+﻿2026-07-11T11:59:48.5628240Z ##[group]Run ./gradlew lintDebug --stacktrace
+2026-07-11T11:59:48.5628642Z [36;1m./gradlew lintDebug --stacktrace[0m
+2026-07-11T11:59:48.5660428Z shell: /usr/bin/bash -e {0}
+2026-07-11T11:59:48.5660671Z env:
+2026-07-11T11:59:48.5660966Z   GRADLE_OPTS: -Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2
+2026-07-11T11:59:48.5661468Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.19-10/x64
+2026-07-11T11:59:48.5661971Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.19-10/x64
+2026-07-11T11:59:48.5662384Z   GRADLE_ACTION_ID: gradle/actions/setup-gradle
+2026-07-11T11:59:48.5662985Z   GRADLE_BUILD_ACTION_SETUP_COMPLETED: true
+2026-07-11T11:59:48.5663275Z   GRADLE_BUILD_ACTION_CACHE_RESTORED: true
+2026-07-11T11:59:48.5663704Z   DEVELOCITY_INJECTION_INIT_SCRIPT_NAME: gradle-actions.inject-develocity.init.gradle
+2026-07-11T11:59:48.5664204Z   DEVELOCITY_AUTO_INJECTION_CUSTOM_VALUE: gradle-actions
+2026-07-11T11:59:48.5664722Z   GITHUB_DEPENDENCY_GRAPH_ENABLED: false
+2026-07-11T11:59:48.5665011Z ##[endgroup]
+2026-07-11T11:59:49.1654661Z To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.5/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+2026-07-11T11:59:50.1643260Z Daemon will be stopped at the end of the build 
+2026-07-11T11:59:56.9715070Z > Task :app:checkKotlinGradlePluginConfigurationErrors
+2026-07-11T11:59:56.9723283Z > Task :app:preBuild UP-TO-DATE
+2026-07-11T11:59:56.9753106Z > Task :app:preDebugBuild UP-TO-DATE
+2026-07-11T11:59:56.9763247Z > Task :app:generateDebugBuildConfig UP-TO-DATE
+2026-07-11T11:59:57.3645806Z > Task :app:checkDebugAarMetadata UP-TO-DATE
+2026-07-11T11:59:57.3661513Z > Task :app:generateDebugResValues UP-TO-DATE
+2026-07-11T11:59:57.4639184Z > Task :app:mapDebugSourceSetPaths UP-TO-DATE
+2026-07-11T11:59:57.4653750Z > Task :app:generateDebugResources UP-TO-DATE
+2026-07-11T11:59:57.5642138Z > Task :app:mergeDebugResources UP-TO-DATE
+2026-07-11T11:59:57.5690862Z > Task :app:packageDebugResources UP-TO-DATE
+2026-07-11T11:59:57.5691666Z > Task :app:parseDebugLocalResources UP-TO-DATE
+2026-07-11T11:59:57.5692683Z > Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+2026-07-11T11:59:57.5693485Z > Task :app:extractDeepLinksDebug UP-TO-DATE
+2026-07-11T11:59:57.6661663Z > Task :app:processDebugMainManifest UP-TO-DATE
+2026-07-11T11:59:57.6680149Z > Task :app:processDebugManifest UP-TO-DATE
+2026-07-11T11:59:57.7640714Z > Task :app:processDebugManifestForPackage UP-TO-DATE
+2026-07-11T11:59:57.9646762Z > Task :app:processDebugResources UP-TO-DATE
+2026-07-11T11:59:58.1641900Z > Task :app:kspDebugKotlin UP-TO-DATE
+2026-07-11T11:59:58.2640168Z > Task :app:compileDebugKotlin UP-TO-DATE
+2026-07-11T11:59:58.2658767Z > Task :app:javaPreCompileDebug UP-TO-DATE
+2026-07-11T11:59:58.3647458Z > Task :app:compileDebugJavaWithJavac UP-TO-DATE
+2026-07-11T11:59:58.5641235Z > Task :app:hiltAggregateDepsDebug UP-TO-DATE
+2026-07-11T11:59:58.5673414Z > Task :app:hiltJavaCompileDebug UP-TO-DATE
+2026-07-11T11:59:58.6646431Z > Task :app:extractProguardFiles UP-TO-DATE
+2026-07-11T11:59:58.6683266Z > Task :app:preDebugAndroidTestBuild SKIPPED
+2026-07-11T11:59:58.6703609Z > Task :app:generateDebugAndroidTestResValues FROM-CACHE
+2026-07-11T11:59:58.7641039Z > Task :app:bundleDebugClassesToCompileJar
+2026-07-11T12:00:06.5660263Z > Task :app:generateDebugLintReportModel
+2026-07-11T12:00:36.5638559Z > Task :app:lintAnalyzeDebug
+2026-07-11T12:00:38.7644292Z 
+2026-07-11T12:00:38.7644911Z > Task :app:lintReportDebug
+2026-07-11T12:00:38.7646503Z Wrote HTML report to file:///home/runner/work/MK_color_predict/MK_color_predict/AIColorPredictionAnalytics/app/build/reports/lint-results-debug.html
+2026-07-11T12:00:38.7647621Z 
+2026-07-11T12:00:38.7647898Z > Task :app:lintDebug
+2026-07-11T12:00:38.7648248Z 
+2026-07-11T12:00:38.7648515Z BUILD SUCCESSFUL in 50s
+2026-07-11T12:00:38.7649124Z 27 actionable tasks: 6 executed, 1 from cache, 20 up-to-date

@@ -1,0 +1,105 @@
+﻿2026-07-11T11:53:30.7457939Z ##[group]Run ./gradlew assembleDebug --stacktrace
+2026-07-11T11:53:30.7458374Z [36;1m./gradlew assembleDebug --stacktrace[0m
+2026-07-11T11:53:30.7488070Z shell: /usr/bin/bash -e {0}
+2026-07-11T11:53:30.7488328Z env:
+2026-07-11T11:53:30.7488636Z   GRADLE_OPTS: -Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2
+2026-07-11T11:53:30.7489138Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.19-10/x64
+2026-07-11T11:53:30.7489636Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.19-10/x64
+2026-07-11T11:53:30.7490061Z   GRADLE_ACTION_ID: gradle/actions/setup-gradle
+2026-07-11T11:53:30.7490376Z   GRADLE_BUILD_ACTION_SETUP_COMPLETED: true
+2026-07-11T11:53:30.7490671Z   GRADLE_BUILD_ACTION_CACHE_RESTORED: true
+2026-07-11T11:53:30.7491112Z   DEVELOCITY_INJECTION_INIT_SCRIPT_NAME: gradle-actions.inject-develocity.init.gradle
+2026-07-11T11:53:30.7491629Z   DEVELOCITY_AUTO_INJECTION_CUSTOM_VALUE: gradle-actions
+2026-07-11T11:53:30.7491964Z   GITHUB_DEPENDENCY_GRAPH_ENABLED: false
+2026-07-11T11:53:30.7492261Z ##[endgroup]
+2026-07-11T11:53:31.1557107Z Downloading https://services.gradle.org/distributions/gradle-8.5-bin.zip
+2026-07-11T11:53:33.6323702Z ............10%.............20%............30%.............40%.............50%............60%.............70%.............80%............90%.............100%
+2026-07-11T11:53:34.8230020Z 
+2026-07-11T11:53:34.8231418Z Welcome to Gradle 8.5!
+2026-07-11T11:53:34.8231854Z 
+2026-07-11T11:53:34.8232884Z Here are the highlights of this release:
+2026-07-11T11:53:34.8234354Z  - Support for running on Java 21
+2026-07-11T11:53:34.8235518Z  - Faster first use with Kotlin DSL
+2026-07-11T11:53:34.8244915Z  - Improved error and warning messages
+2026-07-11T11:53:34.8245194Z 
+2026-07-11T11:53:34.8245438Z For more details see https://docs.gradle.org/8.5/release-notes.html
+2026-07-11T11:53:34.8245839Z 
+2026-07-11T11:53:35.0235039Z To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.5/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+2026-07-11T11:53:36.2224319Z Daemon will be stopped at the end of the build 
+2026-07-11T11:54:29.8245445Z > Task :app:preBuild UP-TO-DATE
+2026-07-11T11:54:29.8261097Z > Task :app:preDebugBuild UP-TO-DATE
+2026-07-11T11:54:29.8262084Z > Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+2026-07-11T11:54:29.8263486Z > Task :app:checkKotlinGradlePluginConfigurationErrors
+2026-07-11T11:54:29.9221940Z > Task :app:generateDebugBuildConfig
+2026-07-11T11:54:41.9221433Z > Task :app:generateDebugResValues
+2026-07-11T11:54:42.0234462Z > Task :app:checkDebugAarMetadata
+2026-07-11T11:54:42.0235593Z > Task :app:mapDebugSourceSetPaths
+2026-07-11T11:54:42.0243175Z > Task :app:generateDebugResources
+2026-07-11T11:54:43.9221115Z > Task :app:packageDebugResources
+2026-07-11T11:54:44.7233916Z > Task :app:mergeDebugResources
+2026-07-11T11:54:44.8220832Z > Task :app:createDebugCompatibleScreenManifests
+2026-07-11T11:54:44.8223076Z > Task :app:extractDeepLinksDebug
+2026-07-11T11:54:45.0243503Z > Task :app:parseDebugLocalResources
+2026-07-11T11:54:45.2221033Z > Task :app:processDebugMainManifest
+2026-07-11T11:54:45.3220901Z > Task :app:processDebugManifest
+2026-07-11T11:54:47.3223697Z > Task :app:processDebugManifestForPackage
+2026-07-11T11:54:47.3225077Z > Task :app:javaPreCompileDebug
+2026-07-11T11:54:48.4243564Z > Task :app:mergeDebugShaders
+2026-07-11T11:54:48.5220787Z > Task :app:compileDebugShaders NO-SOURCE
+2026-07-11T11:54:48.5267420Z > Task :app:generateDebugAssets UP-TO-DATE
+2026-07-11T11:54:48.6222221Z > Task :app:mergeDebugAssets FROM-CACHE
+2026-07-11T11:54:48.6263028Z > Task :app:compressDebugAssets
+2026-07-11T11:54:48.6293195Z > Task :app:desugarDebugFileDependencies
+2026-07-11T11:54:48.9243189Z > Task :app:processDebugResources
+2026-07-11T11:54:52.0227357Z > Task :app:checkDebugDuplicateClasses
+2026-07-11T11:55:22.0221103Z > Task :app:kspDebugKotlin
+2026-07-11T11:55:32.4233453Z > Task :app:mergeExtDexDebug
+2026-07-11T11:56:24.6267110Z > Task :app:mergeLibDexDebug
+2026-07-11T11:56:24.6317490Z > Task :app:mergeDebugJniLibFolders FROM-CACHE
+2026-07-11T11:56:25.0228159Z > Task :app:mergeDebugNativeLibs NO-SOURCE
+2026-07-11T11:56:25.0243109Z > Task :app:stripDebugDebugSymbols NO-SOURCE
+2026-07-11T11:56:26.0236893Z > Task :app:validateSigningDebug
+2026-07-11T11:56:26.0293190Z > Task :app:writeDebugAppMetadata
+2026-07-11T11:56:26.0323111Z > Task :app:writeDebugSigningConfigVersions
+2026-07-11T11:56:45.8221166Z > Task :app:compileDebugKotlin
+2026-07-11T11:56:46.9235297Z w: file:///home/runner/work/MK_color_predict/MK_color_predict/AIColorPredictionAnalytics/app/src/main/java/com/aicolorpredict/analytics/ai/neural/TemporalCnnModel.kt:135:9 Parameter 'conv1' is never used
+2026-07-11T11:56:46.9274987Z w: file:///home/runner/work/MK_color_predict/MK_color_predict/AIColorPredictionAnalytics/app/src/main/java/com/aicolorpredict/analytics/ai/neural/TemporalCnnModel.kt:135:24 Parameter 'conv2' is never used
+2026-07-11T11:56:46.9304871Z w: file:///home/runner/work/MK_color_predict/MK_color_predict/AIColorPredictionAnalytics/app/src/main/java/com/aicolorpredict/analytics/ai/neural/TemporalCnnModel.kt:135:39 Parameter 'conv3' is never used
+2026-07-11T11:56:46.9334924Z w: file:///home/runner/work/MK_color_predict/MK_color_predict/AIColorPredictionAnalytics/app/src/main/java/com/aicolorpredict/analytics/ai/neural/TemporalCnnModel.kt:136:9 Parameter 'b1' is never used
+2026-07-11T11:56:46.9339305Z w: file:///home/runner/work/MK_color_predict/MK_color_predict/AIColorPredictionAnalytics/app/src/main/java/com/aicolorpredict/analytics/ai/neural/TemporalCnnModel.kt:136:26 Parameter 'b2' is never used
+2026-07-11T11:56:46.9342359Z w: file:///home/runner/work/MK_color_predict/MK_color_predict/AIColorPredictionAnalytics/app/src/main/java/com/aicolorpredict/analytics/ai/neural/TemporalCnnModel.kt:136:43 Parameter 'b3' is never used
+2026-07-11T11:56:46.9345540Z w: file:///home/runner/work/MK_color_predict/MK_color_predict/AIColorPredictionAnalytics/app/src/main/java/com/aicolorpredict/analytics/ai/neural/TransformerModel.kt:142:9 Parameter 'Wq' is never used
+2026-07-11T11:56:46.9348439Z w: file:///home/runner/work/MK_color_predict/MK_color_predict/AIColorPredictionAnalytics/app/src/main/java/com/aicolorpredict/analytics/ai/neural/TransformerModel.kt:142:21 Parameter 'Wk' is never used
+2026-07-11T11:56:46.9351321Z w: file:///home/runner/work/MK_color_predict/MK_color_predict/AIColorPredictionAnalytics/app/src/main/java/com/aicolorpredict/analytics/ai/neural/TransformerModel.kt:142:33 Parameter 'Wv' is never used
+2026-07-11T11:56:46.9354440Z w: file:///home/runner/work/MK_color_predict/MK_color_predict/AIColorPredictionAnalytics/app/src/main/java/com/aicolorpredict/analytics/ai/neural/TransformerModel.kt:142:45 Parameter 'bQkv' is never used
+2026-07-11T11:56:46.9357350Z w: file:///home/runner/work/MK_color_predict/MK_color_predict/AIColorPredictionAnalytics/app/src/main/java/com/aicolorpredict/analytics/ai/neural/TransformerModel.kt:143:9 Parameter 'W1' is never used
+2026-07-11T11:56:46.9360242Z w: file:///home/runner/work/MK_color_predict/MK_color_predict/AIColorPredictionAnalytics/app/src/main/java/com/aicolorpredict/analytics/ai/neural/TransformerModel.kt:143:21 Parameter 'b1' is never used
+2026-07-11T11:56:46.9364512Z w: file:///home/runner/work/MK_color_predict/MK_color_predict/AIColorPredictionAnalytics/app/src/main/java/com/aicolorpredict/analytics/ai/neural/TransformerModel.kt:143:38 Parameter 'W2' is never used
+2026-07-11T11:56:46.9367570Z w: file:///home/runner/work/MK_color_predict/MK_color_predict/AIColorPredictionAnalytics/app/src/main/java/com/aicolorpredict/analytics/ai/neural/TransformerModel.kt:143:50 Parameter 'b2' is never used
+2026-07-11T11:56:46.9370526Z w: file:///home/runner/work/MK_color_predict/MK_color_predict/AIColorPredictionAnalytics/app/src/main/java/com/aicolorpredict/analytics/ai/neural/TransformerModel.kt:151:13 Variable 'h' is assigned but never accessed
+2026-07-11T11:56:46.9374890Z w: file:///home/runner/work/MK_color_predict/MK_color_predict/AIColorPredictionAnalytics/app/src/main/java/com/aicolorpredict/analytics/ai/neural/TransformerModel.kt:172:13 The value 'prevRow' assigned to 'var h: DoubleArray defined in com.aicolorpredict.analytics.ai.neural.TransformerModel.onlinePretrain' is never used
+2026-07-11T11:56:46.9379116Z w: file:///home/runner/work/MK_color_predict/MK_color_predict/AIColorPredictionAnalytics/app/src/main/java/com/aicolorpredict/analytics/ai/tree/GradientBoostingModel.kt:50:13 Variable 'nFeatures' is never used
+2026-07-11T11:56:46.9382037Z w: file:///home/runner/work/MK_color_predict/MK_color_predict/AIColorPredictionAnalytics/app/src/main/java/com/aicolorpredict/analytics/feature/TransitionMatrix.kt:62:21 Parameter 'from' is never used
+2026-07-11T11:56:46.9385103Z w: file:///home/runner/work/MK_color_predict/MK_color_predict/AIColorPredictionAnalytics/app/src/main/java/com/aicolorpredict/analytics/ui/components/ChartCard.kt:40:13 Variable 'textColor' is never used
+2026-07-11T11:56:46.9387957Z w: file:///home/runner/work/MK_color_predict/MK_color_predict/AIColorPredictionAnalytics/app/src/main/java/com/aicolorpredict/analytics/ui/components/ConfidenceBadge.kt:31:17 Variable 'label' is never used
+2026-07-11T11:56:46.9390925Z w: file:///home/runner/work/MK_color_predict/MK_color_predict/AIColorPredictionAnalytics/app/src/main/java/com/aicolorpredict/analytics/ui/components/ProbabilityBar.kt:43:5 Parameter 'confidence' is never used
+2026-07-11T11:56:46.9397746Z w: file:///home/runner/work/MK_color_predict/MK_color_predict/AIColorPredictionAnalytics/app/src/main/java/com/aicolorpredict/analytics/util/DateUtils.kt:21:43 Unsafe use of a nullable receiver of type SimpleDateFormat?
+2026-07-11T11:56:46.9407337Z w: file:///home/runner/work/MK_color_predict/MK_color_predict/AIColorPredictionAnalytics/app/src/main/java/com/aicolorpredict/analytics/util/DateUtils.kt:23:23 Unsafe use of a nullable receiver of type SimpleDateFormat?
+2026-07-11T11:56:46.9410766Z w: file:///home/runner/work/MK_color_predict/MK_color_predict/AIColorPredictionAnalytics/app/src/main/java/com/aicolorpredict/analytics/util/DateUtils.kt:25:42 Unsafe use of a nullable receiver of type SimpleDateFormat?
+2026-07-11T11:56:46.9414458Z w: file:///home/runner/work/MK_color_predict/MK_color_predict/AIColorPredictionAnalytics/app/src/main/java/com/aicolorpredict/analytics/util/DateUtils.kt:26:47 Unsafe use of a nullable receiver of type SimpleDateFormat?
+2026-07-11T11:56:56.7254794Z 
+2026-07-11T11:56:56.7297675Z > Task :app:compileDebugJavaWithJavac
+2026-07-11T11:56:58.0220759Z > Task :app:hiltAggregateDepsDebug
+2026-07-11T11:57:01.4223062Z > Task :app:hiltJavaCompileDebug
+2026-07-11T11:57:01.4234066Z > Task :app:processDebugJavaRes
+2026-07-11T11:57:01.9220912Z > Task :app:transformDebugClassesWithAsm
+2026-07-11T11:57:04.0220804Z > Task :app:mergeDebugJavaResource
+2026-07-11T11:57:05.1221589Z > Task :app:dexBuilderDebug
+2026-07-11T11:57:05.2230233Z > Task :app:mergeDebugGlobalSynthetics
+2026-07-11T11:57:05.4223682Z > Task :app:mergeProjectDexDebug
+2026-07-11T11:57:06.4221110Z > Task :app:packageDebug
+2026-07-11T11:57:06.4222099Z > Task :app:createDebugApkListingFileRedirect
+2026-07-11T11:57:06.4223126Z > Task :app:assembleDebug
+2026-07-11T11:57:06.5166867Z 
+2026-07-11T11:57:06.5177589Z BUILD SUCCESSFUL in 3m 35s
+2026-07-11T11:57:06.5179287Z 39 actionable tasks: 37 executed, 2 from cache
