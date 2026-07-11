@@ -1,7 +1,6 @@
 package com.aicolorpredict.analytics.ui.data
 
 import android.app.Application
-import android.content.Intent
 import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,8 +9,10 @@ import com.aicolorpredict.analytics.data.importer.CsvExporter
 import com.aicolorpredict.analytics.data.importer.CsvImporter
 import com.aicolorpredict.analytics.data.importer.JsonExporter
 import com.aicolorpredict.analytics.data.importer.JsonImporter
+import com.aicolorpredict.analytics.data.repository.PredictionRepository
 import com.aicolorpredict.analytics.data.repository.RoundRepository
 import com.aicolorpredict.analytics.domain.usecase.AddRoundUseCase
+import com.aicolorpredict.analytics.domain.usecase.UpdateModelPerformanceUseCase
 import com.aicolorpredict.analytics.util.AppDispatchers
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -35,7 +36,9 @@ data class DataUiState(
 class DataViewModel @Inject constructor(
     application: Application,
     private val roundRepo: RoundRepository,
+    private val predictionRepo: PredictionRepository,
     private val addRoundUseCase: AddRoundUseCase,
+    private val updatePerformanceUseCase: UpdateModelPerformanceUseCase,
     private val backupRestore: BackupRestoreManager,
     private val dispatchers: AppDispatchers
 ) : AndroidViewModel(application) {
@@ -55,6 +58,9 @@ class DataViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 addRoundUseCase(number)
+                // Refresh model performance metrics since the previous round's
+                // predictions were just resolved.
+                updatePerformanceUseCase()
                 _state.value = _state.value.copy(lastAction = "Added round with number $number")
             } catch (t: Throwable) {
                 _state.value = _state.value.copy(errorMessage = t.message)
@@ -148,7 +154,8 @@ class DataViewModel @Inject constructor(
         viewModelScope.launch(dispatchers.io) {
             try {
                 roundRepo.clearAll()
-                _state.value = _state.value.copy(lastAction = "Cleared all rounds")
+                predictionRepo.clearAll()
+                _state.value = _state.value.copy(lastAction = "Cleared all rounds, predictions, and model performance")
             } catch (t: Throwable) {
                 _state.value = _state.value.copy(errorMessage = "Clear failed: ${t.message}")
             }

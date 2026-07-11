@@ -23,24 +23,13 @@ class BackupRestoreManager @Inject constructor(
 ) {
     suspend fun export(out: OutputStream) = withContext(dispatchers.io) {
         val rounds = db.roundDao().getAll()
-        // We deliberately do not stream predictions/performance row-by-row to keep
-        // the format self-contained; for very large histories a future version
-        // could switch to NDJSON.
         val perf = db.modelPerformanceDao().getAll()
-        // For predictions we only take the most recent 5000 to keep backups sane.
-        // (Older predictions remain in the DB; this is purely a backup-size cap.)
+        // For predictions we only take the most recent 5000 rounds to keep
+        // backups sane. (Older predictions remain in the DB; this is purely a
+        // backup-size cap.)
         val predictions = mutableListOf<PredictionEntity>()
         for (r in rounds.takeLast(5000)) {
-            predictions += db.predictionDao().getByRound(r.id).map {
-                PredictionEntity(
-                    id = it.id, roundId = it.roundId, epochMs = it.epochMs,
-                    modelName = it.modelName, topPick = it.topPick,
-                    topProbability = it.topProbability, confidence = it.confidence,
-                    reason = it.reason, numberProbabilities = it.numberProbabilities,
-                    colorProbabilities = it.colorProbabilities, actualOutcome = it.actualOutcome,
-                    correct = it.correct
-                )
-            }
+            predictions += db.predictionDao().getByRound(r.id)
         }
         BackupManager.write(BackupManager.Bundle(rounds, predictions, perf), out)
     }

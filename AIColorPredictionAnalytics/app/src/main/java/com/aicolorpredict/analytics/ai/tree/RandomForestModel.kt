@@ -24,7 +24,7 @@ import kotlin.random.Random
 class RandomForestModel(
     private val nTrees: Int = 16,
     private val maxDepth: Int = 5,
-    private val seed: Long = 0xF0E5T_R
+    private val seed: Long = 8901234567L
 ) : PredictionModel {
     override val name: String = "Random Forest"
     override val category: ModelCategory = ModelCategory.TREE

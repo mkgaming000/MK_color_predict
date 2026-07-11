@@ -24,7 +24,7 @@ class TemporalCnnModel(
     private val channels: Int = 16,
     private val kernel: Int = 3,
     private val dilations: IntArray = intArrayOf(1, 2, 4),
-    private val seed: Long = 0xTCN_42
+    private val seed: Long = 4567890123L
 ) : PredictionModel {
     override val name: String = "Temporal CNN"
     override val category: ModelCategory = ModelCategory.NEURAL

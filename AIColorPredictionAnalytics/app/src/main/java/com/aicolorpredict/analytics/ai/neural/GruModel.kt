@@ -24,7 +24,7 @@ import kotlin.random.Random
  */
 class GruModel(
     private val hiddenSize: Int = 32,
-    private val seed: Long = 0xGRU_42
+    private val seed: Long = 2345678901L
 ) : PredictionModel {
     override val name: String = "GRU"
     override val category: ModelCategory = ModelCategory.NEURAL

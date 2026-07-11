@@ -1,13 +1,10 @@
 package com.aicolorpredict.analytics.ai.ensemble
 
-import com.aicolorpredict.analytics.ai.base.ModelCategory
-import com.aicolorpredict.analytics.ai.base.PredictionModel
 import com.aicolorpredict.analytics.ai.base.ModelUtils
 import com.aicolorpredict.analytics.ai.calibration.ConfidenceCalibrator
 import com.aicolorpredict.analytics.domain.model.BallColor
 import com.aicolorpredict.analytics.domain.model.Confidence
 import com.aicolorpredict.analytics.domain.model.ConsensusLevel
-import com.aicolorpredict.analytics.domain.model.FeatureSet
 import com.aicolorpredict.analytics.domain.model.ModelOutput
 import com.aicolorpredict.analytics.domain.model.NumberProbability
 import com.aicolorpredict.analytics.domain.model.Prediction
@@ -41,7 +38,7 @@ class EnsembleModel(
     private val confidenceWeight: Double = 0.5,
     private val sampleWeight: Double = 0.3,
     private val maxSingleWeight: Double = 0.35,
-    private val calibrators: Map<String, ConfidenceCalibrator> = emptyMap()
+    private val calibratorLookup: (String) -> ConfidenceCalibrator? = { null }
 ) {
     fun combine(
         roundId: Long,
@@ -111,7 +108,7 @@ class EnsembleModel(
         // Calibrated confidence = weighted average of calibrated per-model confidences.
         val calibratedConf = outputs.indices.fold(0.0) { acc, i ->
             val o = outputs[i]
-            val cal = calibrators[o.modelName]?.calibrate(o.confidence) ?: o.confidence
+            val cal = calibratorLookup(o.modelName)?.calibrate(o.confidence) ?: o.confidence
             acc + weights[i] * cal
         }.coerceAtMost(0.85)
 

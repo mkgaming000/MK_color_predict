@@ -30,7 +30,7 @@ open class GradientBoostingModel(
     private val nEstimators: Int = 12,
     private val maxDepth: Int = 3,
     private val learningRate: Double = 0.1,
-    private val seed: Long = 0xGBM_42,
+    private val seed: Long = 5678901234L,
     private val modelDisplayName: String = "Gradient Boosting"
 ) : PredictionModel {
     override val name: String = modelDisplayName

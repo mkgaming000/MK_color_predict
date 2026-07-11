@@ -9,6 +9,6 @@ class CatBoostModel : GradientBoostingModel(
     nEstimators = 24,
     maxDepth = 2,
     learningRate = 0.05,
-    seed = 0xCB_42,
+    seed = 9012345678L,
     modelDisplayName = "CatBoost"
 )

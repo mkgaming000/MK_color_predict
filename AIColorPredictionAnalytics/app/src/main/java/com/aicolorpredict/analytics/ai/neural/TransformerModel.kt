@@ -27,7 +27,7 @@ import kotlin.random.Random
 class TransformerModel(
     private val dModel: Int = 16,
     private val seqLen: Int = 32,
-    private val seed: Long = 0xTR4NS_42
+    private val seed: Long = 3456789012L
 ) : PredictionModel {
     override val name: String = "Transformer"
     override val category: ModelCategory = ModelCategory.NEURAL

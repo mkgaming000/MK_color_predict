@@ -1,7 +1,6 @@
 package com.aicolorpredict.analytics.ai.calibration
 
 import kotlin.math.exp
-import kotlin.math.ln
 
 /**
  * Platt scaling: fits a logistic map `σ(A·x + B)` that converts a model's raw

@@ -18,6 +18,6 @@ class XGBoostModel : GradientBoostingModel(
     nEstimators = 16,
     maxDepth = 4,
     learningRate = 0.08,
-    seed = 0xXGB_42,
+    seed = 6789012345L,
     modelDisplayName = "XGBoost"
 )

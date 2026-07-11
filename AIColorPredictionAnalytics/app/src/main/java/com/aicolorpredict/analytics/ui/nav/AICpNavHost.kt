@@ -1,6 +1,5 @@
 package com.aicolorpredict.analytics.ui.nav
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon

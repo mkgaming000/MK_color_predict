@@ -48,7 +48,8 @@ class StatisticalModelsTest {
         val o2 = kotlinx.coroutines.runBlocking { model.predict(fs2, smallHistory, 0.1) }
         // Same seed + same roundId → same output (we feed roundId into the RNG)
         for (n in 0..9) {
-            kotlin.test.assertEquals(o1.numberProbabilities[n]!!, o2.numberProbabilities[n]!!, 1e-9)
+            com.google.common.truth.Truth.assertThat(o1.numberProbabilities[n]!!)
+                .isWithin(1e-9).of(o2.numberProbabilities[n]!!)
         }
     }
 

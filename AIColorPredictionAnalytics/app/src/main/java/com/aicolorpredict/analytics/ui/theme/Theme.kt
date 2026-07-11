@@ -6,9 +6,11 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+
+private val Color_White = Color.White
 
 private val DarkColors = darkColorScheme(
     primary = GreenPrimary,
@@ -49,8 +51,6 @@ private val LightColors = lightColorScheme(
     outlineVariant = LightOutline,
     error = RedAccent
 )
-
-private val Color_White = androidx.compose.ui.graphics.Color.White
 
 @Composable
 fun AICpTheme(

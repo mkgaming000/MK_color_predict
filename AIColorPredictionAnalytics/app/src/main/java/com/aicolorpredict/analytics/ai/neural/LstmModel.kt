@@ -37,7 +37,7 @@ import kotlin.random.Random
  */
 class LstmModel(
     private val hiddenSize: Int = 32,
-    private val seed: Long = 0xL5TM_42
+    private val seed: Long = 1234567890L
 ) : PredictionModel {
     override val name: String = "LSTM"
     override val category: ModelCategory = ModelCategory.NEURAL

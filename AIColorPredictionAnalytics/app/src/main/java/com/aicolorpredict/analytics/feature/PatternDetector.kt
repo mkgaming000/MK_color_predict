@@ -3,7 +3,6 @@ package com.aicolorpredict.analytics.feature
 import com.aicolorpredict.analytics.domain.model.BallColor
 import com.aicolorpredict.analytics.domain.model.Cycle
 import com.aicolorpredict.analytics.domain.model.Run
-import com.aicolorpredict.analytics.domain.model.colorsForNumber
 import com.aicolorpredict.analytics.domain.model.primaryColorFor
 
 /**

@@ -10,10 +10,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -66,10 +64,12 @@ fun GlassCard(
                 }
             }
         }
-        // Hairline border on top
+        // Hairline border overlay — matchParentSize so it covers the gradient
+        // Surface below. Without matchParentSize the empty-content Surface would
+        // collapse to 0×0 and the border would never render.
         Surface(
             modifier = Modifier
-                .fillMaxWidth()
+                .matchParentSize()
                 .clip(RoundedCornerShape(22.dp)),
             color = Color.Transparent,
             border = BorderStroke(1.dp, borderColor)

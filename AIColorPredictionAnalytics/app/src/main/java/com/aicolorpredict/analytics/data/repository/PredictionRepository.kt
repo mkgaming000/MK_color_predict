@@ -1,9 +1,7 @@
 package com.aicolorpredict.analytics.data.repository
 
-import com.aicolorpredict.analytics.domain.model.AccuracyMetrics
 import com.aicolorpredict.analytics.domain.model.ModelOutput
 import com.aicolorpredict.analytics.domain.model.ModelPerformance
-import com.aicolorpredict.analytics.domain.model.Prediction
 import kotlinx.coroutines.flow.Flow
 
 interface PredictionRepository {

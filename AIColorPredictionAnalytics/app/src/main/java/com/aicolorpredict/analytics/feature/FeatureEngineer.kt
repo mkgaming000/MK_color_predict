@@ -5,7 +5,6 @@ import com.aicolorpredict.analytics.domain.model.Cycle
 import com.aicolorpredict.analytics.domain.model.FeatureSet
 import com.aicolorpredict.analytics.domain.model.Run
 import com.aicolorpredict.analytics.domain.model.colorsForNumber
-import com.aicolorpredict.analytics.domain.model.primaryColorFor
 
 /**
  * Turns a raw list of past numbers into a fully-formed [FeatureSet].

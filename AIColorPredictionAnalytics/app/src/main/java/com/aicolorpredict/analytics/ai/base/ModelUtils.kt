@@ -1,7 +1,6 @@
 package com.aicolorpredict.analytics.ai.base
 
 import com.aicolorpredict.analytics.domain.model.Confidence
-import com.aicolorpredict.analytics.domain.model.FeatureSet
 
 /**
  * Helpers shared by every model — explanation generators, smoothing,
@@ -34,15 +33,12 @@ object ModelUtils {
     /** Confidence in [0,1] from a top probability, using a saturating function. */
     fun confidenceFromTop(top: Double, baseline: Double = 0.1): Double {
         val excess = (top - baseline).coerceIn(0.0, 1.0)
-        // Sigmoid-like map: top=0.1 -> ~0.5, top=0.3 -> ~0.86, top=0.5 -> ~0.98
         val scaled = 6.0 * (excess / (1.0 - baseline).coerceAtLeast(1e-6))
         return (1.0 / (1.0 + kotlin.math.exp(-scaled))).coerceIn(0.0, 1.0)
     }
 
     fun reasonTopPick(name: String, top: Int, prob: Double, evidence: String): String =
-        "$name favours number $top (${(prob * 100).format(1)}%). $evidence"
-
-    fun Double.format(digits: Int): String = "%.${digits}f".format(this)
+        "$name favours number $top (${"%.${1}f".format(prob * 100)}%). $evidence"
 }
 
 /**

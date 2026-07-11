@@ -10,6 +10,6 @@ class LightGbmModel : GradientBoostingModel(
     nEstimators = 20,
     maxDepth = 5,
     learningRate = 0.06,
-    seed = 0xLGBM_42,
+    seed = 7890123456L,
     modelDisplayName = "LightGBM"
 )

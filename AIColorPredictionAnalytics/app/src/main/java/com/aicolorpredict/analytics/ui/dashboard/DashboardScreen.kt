@@ -26,7 +26,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.aicolorpredict.analytics.ui.components.ConfidenceBadge
 import com.aicolorpredict.analytics.ui.components.ConsensusBadge
-import com.aicolorpredict.analytics.ui.components.EmptyState
 import com.aicolorpredict.analytics.ui.components.GlassCard
 import com.aicolorpredict.analytics.ui.components.ProbabilityBar
 import com.aicolorpredict.analytics.ui.components.StatChip

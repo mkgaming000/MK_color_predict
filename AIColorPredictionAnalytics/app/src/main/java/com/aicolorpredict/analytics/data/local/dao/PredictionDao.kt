@@ -31,8 +31,8 @@ interface PredictionDao {
     @Query("SELECT * FROM predictions WHERE correct IS NULL ORDER BY epochMs ASC")
     suspend fun getUnresolved(): List<PredictionEntity>
 
-    @Query("UPDATE predictions SET actualOutcome = :actual, correct = :correct WHERE roundId = :roundId")
-    suspend fun resolve(roundId: Long, actual: Int, correct: Int)
+    @Query("UPDATE predictions SET actualOutcome = :actual, correct = CASE WHEN topPick = :actual THEN 1 ELSE 0 END WHERE roundId = :roundId")
+    suspend fun resolve(roundId: Long, actual: Int)
 
     @Query("SELECT COUNT(*) FROM predictions WHERE modelName = :model AND correct IS NOT NULL")
     suspend fun resolvedCount(model: String): Int

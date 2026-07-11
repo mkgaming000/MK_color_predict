@@ -1,6 +1,5 @@
 package com.aicolorpredict.analytics.metrics
 
-import com.aicolorpredict.analytics.domain.model.BallColor
 import com.aicolorpredict.analytics.domain.model.ModelOutput
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test

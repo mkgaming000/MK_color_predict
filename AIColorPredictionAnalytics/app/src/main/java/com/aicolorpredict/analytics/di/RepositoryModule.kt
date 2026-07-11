@@ -1,5 +1,6 @@
 package com.aicolorpredict.analytics.di
 
+import com.aicolorpredict.analytics.ai.base.CalibratorFactory
 import com.aicolorpredict.analytics.ai.ensemble.AdaptiveWeightingModel
 import com.aicolorpredict.analytics.ai.ensemble.EnsembleModel
 import com.aicolorpredict.analytics.data.repository.PredictionRepository
@@ -31,8 +32,14 @@ object DomainModule {
     @Provides @Singleton
     fun provideFeatureEngineer(): FeatureEngineer = FeatureEngineer()
 
+    /**
+     * Provides the [EnsembleModel] wired to the shared [CalibratorFactory] so
+     * per-model Platt/binning calibrators are actually applied during ensemble
+     * combination (not just maintained in isolation).
+     */
     @Provides @Singleton
-    fun provideEnsembleModel(): EnsembleModel = EnsembleModel()
+    fun provideEnsembleModel(calibratorFactory: CalibratorFactory): EnsembleModel =
+        EnsembleModel(calibratorLookup = { name -> calibratorFactory.get(name) })
 
     @Provides @Singleton
     fun provideAdaptiveEnsemble(ensemble: EnsembleModel): AdaptiveWeightingModel =

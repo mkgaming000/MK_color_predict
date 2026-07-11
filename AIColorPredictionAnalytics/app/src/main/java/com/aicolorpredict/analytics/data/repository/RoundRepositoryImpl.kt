@@ -1,7 +1,7 @@
 package com.aicolorpredict.analytics.data.repository
 
 import com.aicolorpredict.analytics.data.local.dao.RoundDao
-import com.aicolorpredict.analytics.data.local.entity.NumberCount
+import com.aicolorpredict.analytics.data.local.dao.NumberCount
 import com.aicolorpredict.analytics.data.local.entity.toDomain
 import com.aicolorpredict.analytics.data.local.entity.toEntity
 import com.aicolorpredict.analytics.domain.model.Round

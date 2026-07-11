@@ -11,10 +11,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.background
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -58,24 +58,25 @@ fun DataScreen(
         uri?.let { vm.restore(it) }
     }
 
+    val context = androidx.compose.ui.platform.LocalContext.current
+
     // Handle pending exports — write to a temp file and share
     LaunchedEffect(state.pendingExportBytes) {
         state.pendingExportBytes?.let { bytes ->
-            val ctx = androidx.compose.ui.platform.LocalContext.current
-            val file = java.io.File(ctx.cacheDir, state.pendingExportFileName)
+            val file = java.io.File(context.cacheDir, state.pendingExportFileName)
             file.writeBytes(bytes)
             val shareIntent = android.content.Intent(android.content.Intent.ACTION_SEND).apply {
                 type = state.pendingExportMime
-                val uri = androidx.core.content.FileProvider.getUriForFile(ctx, "${ctx.packageName}.fileprovider", file)
+                val uri = androidx.core.content.FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file)
                 putExtra(android.content.Intent.EXTRA_STREAM, uri)
                 addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
             }
-            ctx.startActivity(android.content.Intent.createChooser(shareIntent, "Share export"))
+            context.startActivity(android.content.Intent.createChooser(shareIntent, "Share export"))
             vm.consumeExportBytes()
         }
     }
 
-    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+    Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp)) {
         Text("Data", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onBackground)
         Text("Add rounds, import/export, backup/restore. All operations are local — no cloud.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
         Spacer(Modifier.height(12.dp))

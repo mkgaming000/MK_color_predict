@@ -4,13 +4,11 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -27,7 +25,6 @@ import com.aicolorpredict.analytics.domain.model.Confidence
 import com.aicolorpredict.analytics.domain.model.colorsForNumber
 import com.aicolorpredict.analytics.ui.theme.NumberGreen
 import com.aicolorpredict.analytics.ui.theme.NumberRed
-import com.aicolorpredict.analytics.ui.theme.NumberViolet
 
 /**
  * A horizontal bar showing the probability of a single number.

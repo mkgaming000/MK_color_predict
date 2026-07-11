@@ -4,11 +4,8 @@ import com.aicolorpredict.analytics.data.local.dao.ModelPerformanceDao
 import com.aicolorpredict.analytics.data.local.dao.PredictionDao
 import com.aicolorpredict.analytics.data.local.entity.ModelPerformanceEntity
 import com.aicolorpredict.analytics.data.local.entity.PredictionEntity
-import com.aicolorpredict.analytics.domain.model.AccuracyMetrics
-import com.aicolorpredict.analytics.domain.model.BallColor
 import com.aicolorpredict.analytics.domain.model.ModelOutput
 import com.aicolorpredict.analytics.domain.model.ModelPerformance
-import com.aicolorpredict.analytics.domain.model.Prediction
 import com.aicolorpredict.analytics.domain.model.toEntity
 import com.aicolorpredict.analytics.domain.model.toModelOutput
 import com.aicolorpredict.analytics.util.AppDispatchers
@@ -37,11 +34,9 @@ class PredictionRepositoryImpl @Inject constructor(
     }
 
     override suspend fun resolve(roundId: Long, actual: Int) = withContext(dispatchers.io) {
-        val preds = predictionDao.getByRound(roundId)
-        preds.forEach { p ->
-            val correct = if (p.topPick == actual) 1 else 0
-            predictionDao.resolve(roundId, actual, correct)
-        }
+        // The UPDATE sets actualOutcome + per-row correct (CASE on topPick) for
+        // ALL prediction rows with this roundId in a single round-trip.
+        predictionDao.resolve(roundId, actual)
     }
 
     override suspend fun unresolved(): List<Pair<Long, Long>> = withContext(dispatchers.io) {
@@ -66,7 +61,10 @@ class PredictionRepositoryImpl @Inject constructor(
         performanceDao.upsertAll(list.map { it.toEntity() })
     }
 
-    override suspend fun clearAll() = withContext(dispatchers.io) { predictionDao.clearAll() }
+    override suspend fun clearAll() = withContext(dispatchers.io) {
+        predictionDao.clearAll()
+        performanceDao.clearAll()
+    }
 
     override suspend fun recentResolvedByModel(model: String, limit: Int): List<Pair<ModelOutput, Int>> =
         withContext(dispatchers.io) {

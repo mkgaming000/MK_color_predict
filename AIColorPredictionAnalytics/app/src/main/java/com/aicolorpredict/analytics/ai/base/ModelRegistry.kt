@@ -15,7 +15,6 @@ import com.aicolorpredict.analytics.ai.tree.CatBoostModel
 import com.aicolorpredict.analytics.ai.tree.LightGbmModel
 import com.aicolorpredict.analytics.ai.tree.RandomForestModel
 import com.aicolorpredict.analytics.ai.tree.XGBoostModel
-import com.aicolorpredict.analytics.domain.model.ModelPerformance
 import javax.inject.Inject
 import javax.inject.Singleton
 
