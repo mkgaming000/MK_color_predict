@@ -1,39 +1,29 @@
-﻿2026-07-11T12:01:18.1555490Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
-2026-07-11T12:01:18.1557984Z ##[group]Run actions/upload-artifact@v4
-2026-07-11T12:01:18.1558503Z with:
-2026-07-11T12:01:18.1558851Z   name: test-results
-2026-07-11T12:01:18.1560078Z   path: AIColorPredictionAnalytics/app/build/reports/tests/testDebugUnitTest/
+﻿2026-07-11T12:50:56.1966700Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-07-11T12:50:56.1968976Z ##[group]Run actions/upload-artifact@v4
+2026-07-11T12:50:56.1969409Z with:
+2026-07-11T12:50:56.1969699Z   name: test-results
+2026-07-11T12:50:56.1971023Z   path: AIColorPredictionAnalytics/app/build/reports/tests/testDebugUnitTest/
 AIColorPredictionAnalytics/app/build/reports/lint-results-debug.html
 
-2026-07-11T12:01:18.1561430Z   retention-days: 14
-2026-07-11T12:01:18.1561849Z   if-no-files-found: warn
-2026-07-11T12:01:18.1562284Z   compression-level: 6
-2026-07-11T12:01:18.1562963Z   overwrite: false
-2026-07-11T12:01:18.1563373Z   include-hidden-files: false
-2026-07-11T12:01:18.1563809Z env:
-2026-07-11T12:01:18.1564350Z   GRADLE_OPTS: -Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2
-2026-07-11T12:01:18.1565294Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.19-10/x64
-2026-07-11T12:01:18.1566229Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.19-10/x64
-2026-07-11T12:01:18.1567325Z   GRADLE_ACTION_ID: gradle/actions/setup-gradle
-2026-07-11T12:01:18.1567918Z   GRADLE_BUILD_ACTION_SETUP_COMPLETED: true
-2026-07-11T12:01:18.1568480Z   GRADLE_BUILD_ACTION_CACHE_RESTORED: true
-2026-07-11T12:01:18.1569309Z   DEVELOCITY_INJECTION_INIT_SCRIPT_NAME: gradle-actions.inject-develocity.init.gradle
-2026-07-11T12:01:18.1570301Z   DEVELOCITY_AUTO_INJECTION_CUSTOM_VALUE: gradle-actions
-2026-07-11T12:01:18.1570911Z   GITHUB_DEPENDENCY_GRAPH_ENABLED: false
-2026-07-11T12:01:18.1571400Z ##[endgroup]
-2026-07-11T12:01:18.3180010Z (node:3497) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-2026-07-11T12:01:18.3181161Z (Use `node --trace-deprecation ...` to show where the warning was created)
-2026-07-11T12:01:18.3309994Z Multiple search paths detected. Calculating the least common ancestor of all paths
-2026-07-11T12:01:18.3313573Z The least common ancestor is /home/runner/work/MK_color_predict/MK_color_predict/AIColorPredictionAnalytics/app/build/reports. This will be the root directory of the artifact
-2026-07-11T12:01:18.3315219Z With the provided path, there will be 22 files uploaded
-2026-07-11T12:01:18.3319444Z Artifact name is valid!
-2026-07-11T12:01:18.3320613Z Root directory input is valid!
-2026-07-11T12:01:18.4784068Z Beginning upload of artifact content to blob storage
-2026-07-11T12:01:18.5352142Z (node:3497) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
-2026-07-11T12:01:18.5610020Z Uploaded bytes 53118
-2026-07-11T12:01:18.5756617Z Finished uploading artifact content to blob storage!
-2026-07-11T12:01:18.5758016Z SHA256 digest of uploaded artifact zip is e1652a5f9cc496f0d1378c81f6670b92df66cc8204101eb2c1d3deebeb244b2e
-2026-07-11T12:01:18.5760296Z Finalizing artifact upload
-2026-07-11T12:01:18.7716732Z Artifact test-results.zip successfully finalized. Artifact ID 8248380923
-2026-07-11T12:01:18.7717872Z Artifact test-results has been successfully uploaded! Final size is 53118 bytes. Artifact ID is 8248380923
-2026-07-11T12:01:18.7723469Z Artifact download URL: https://github.com/mkgaming000/MK_color_predict/actions/runs/29151720097/artifacts/8248380923
+2026-07-11T12:50:56.1972254Z   retention-days: 14
+2026-07-11T12:50:56.1972604Z   if-no-files-found: warn
+2026-07-11T12:50:56.1972974Z   compression-level: 6
+2026-07-11T12:50:56.1973324Z   overwrite: false
+2026-07-11T12:50:56.1973665Z   include-hidden-files: false
+2026-07-11T12:50:56.1974040Z env:
+2026-07-11T12:50:56.1974502Z   GRADLE_OPTS: -Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2
+2026-07-11T12:50:56.1975333Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.19-10/x64
+2026-07-11T12:50:56.1976169Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.19-10/x64
+2026-07-11T12:50:56.1977080Z   GRADLE_ACTION_ID: gradle/actions/setup-gradle
+2026-07-11T12:50:56.1977602Z   GRADLE_BUILD_ACTION_SETUP_COMPLETED: true
+2026-07-11T12:50:56.1978090Z   GRADLE_BUILD_ACTION_CACHE_RESTORED: true
+2026-07-11T12:50:56.1978831Z   DEVELOCITY_INJECTION_INIT_SCRIPT_NAME: gradle-actions.inject-develocity.init.gradle
+2026-07-11T12:50:56.1979675Z   DEVELOCITY_AUTO_INJECTION_CUSTOM_VALUE: gradle-actions
+2026-07-11T12:50:56.1980448Z   GITHUB_DEPENDENCY_GRAPH_ENABLED: false
+2026-07-11T12:50:56.1980880Z ##[endgroup]
+2026-07-11T12:50:56.3707001Z (node:2669) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-07-11T12:50:56.3708355Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-07-11T12:50:56.3758608Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-07-11T12:50:56.3768923Z The least common ancestor is /home/runner/work/MK_color_predict/MK_color_predict/AIColorPredictionAnalytics/app/build/reports. This will be the root directory of the artifact
+2026-07-11T12:50:56.3774883Z ##[warning]No files were found with the provided path: AIColorPredictionAnalytics/app/build/reports/tests/testDebugUnitTest/
+AIColorPredictionAnalytics/app/build/reports/lint-results-debug.html. No artifacts will be uploaded.

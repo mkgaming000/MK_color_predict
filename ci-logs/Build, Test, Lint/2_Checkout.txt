@@ -1,75 +1,75 @@
-﻿2026-07-11T11:53:26.2161208Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
-2026-07-11T11:53:26.2169977Z ##[group]Run actions/checkout@v4
-2026-07-11T11:53:26.2170961Z with:
-2026-07-11T11:53:26.2171669Z   repository: mkgaming000/MK_color_predict
-2026-07-11T11:53:26.2175441Z   token: ***
-2026-07-11T11:53:26.2176114Z   ssh-strict: true
-2026-07-11T11:53:26.2176786Z   ssh-user: git
-2026-07-11T11:53:26.2177461Z   persist-credentials: true
-2026-07-11T11:53:26.2178167Z   clean: true
-2026-07-11T11:53:26.2178848Z   sparse-checkout-cone-mode: true
-2026-07-11T11:53:26.2179576Z   fetch-depth: 1
-2026-07-11T11:53:26.2180235Z   fetch-tags: false
-2026-07-11T11:53:26.2180932Z   show-progress: true
-2026-07-11T11:53:26.2181610Z   lfs: false
-2026-07-11T11:53:26.2182249Z   submodules: false
-2026-07-11T11:53:26.2183127Z   set-safe-directory: true
-2026-07-11T11:53:26.2184105Z env:
-2026-07-11T11:53:26.2184903Z   GRADLE_OPTS: -Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2
-2026-07-11T11:53:26.2185768Z ##[endgroup]
-2026-07-11T11:53:26.3268788Z Syncing repository: mkgaming000/MK_color_predict
-2026-07-11T11:53:26.3271919Z ##[group]Getting Git version info
-2026-07-11T11:53:26.3273826Z Working directory is '/home/runner/work/MK_color_predict/MK_color_predict'
-2026-07-11T11:53:26.3276119Z [command]/usr/bin/git version
-2026-07-11T11:53:26.3330666Z git version 2.54.0
-2026-07-11T11:53:26.3352955Z ##[endgroup]
-2026-07-11T11:53:26.3367592Z Temporarily overriding HOME='/home/runner/work/_temp/466c2aaf-86f6-4004-92a0-2aed812ea308' before making global git config changes
-2026-07-11T11:53:26.3370235Z Adding repository directory to the temporary git global config as a safe directory
-2026-07-11T11:53:26.3373573Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/MK_color_predict/MK_color_predict
-2026-07-11T11:53:26.3428235Z Deleting the contents of '/home/runner/work/MK_color_predict/MK_color_predict'
-2026-07-11T11:53:26.3434247Z ##[group]Initializing the repository
-2026-07-11T11:53:26.3439288Z [command]/usr/bin/git init /home/runner/work/MK_color_predict/MK_color_predict
-2026-07-11T11:53:26.3551342Z hint: Using 'master' as the name for the initial branch. This default branch name
-2026-07-11T11:53:26.3553579Z hint: will change to "main" in Git 3.0. To configure the initial branch name
-2026-07-11T11:53:26.3555522Z hint: to use in all of your new repositories, which will suppress this warning,
-2026-07-11T11:53:26.3557249Z hint: call:
-2026-07-11T11:53:26.3558396Z hint:
-2026-07-11T11:53:26.3559632Z hint: 	git config --global init.defaultBranch <name>
-2026-07-11T11:53:26.3560970Z hint:
-2026-07-11T11:53:26.3562420Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
-2026-07-11T11:53:26.3571227Z hint: 'development'. The just-created branch can be renamed via this command:
-2026-07-11T11:53:26.3576366Z hint:
-2026-07-11T11:53:26.3577441Z hint: 	git branch -m <name>
-2026-07-11T11:53:26.3578580Z hint:
-2026-07-11T11:53:26.3580158Z hint: Disable this message with "git config set advice.defaultBranchName false"
-2026-07-11T11:53:26.3582292Z Initialized empty Git repository in /home/runner/work/MK_color_predict/MK_color_predict/.git/
-2026-07-11T11:53:26.3586146Z [command]/usr/bin/git remote add origin https://github.com/mkgaming000/MK_color_predict
-2026-07-11T11:53:26.3617846Z ##[endgroup]
-2026-07-11T11:53:26.3619753Z ##[group]Disabling automatic garbage collection
-2026-07-11T11:53:26.3622802Z [command]/usr/bin/git config --local gc.auto 0
-2026-07-11T11:53:26.3654449Z ##[endgroup]
-2026-07-11T11:53:26.3656418Z ##[group]Setting up auth
-2026-07-11T11:53:26.3661870Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
-2026-07-11T11:53:26.3701724Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
-2026-07-11T11:53:26.4366426Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
-2026-07-11T11:53:26.4408814Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
-2026-07-11T11:53:26.4649078Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
-2026-07-11T11:53:26.4687226Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
-2026-07-11T11:53:26.4918354Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
-2026-07-11T11:53:26.5248419Z ##[endgroup]
-2026-07-11T11:53:26.5249853Z ##[group]Fetching the repository
-2026-07-11T11:53:26.5261318Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +d8a4d91cd504b2aab9f2511f00c6ecc15e8438a1:refs/remotes/origin/main
-2026-07-11T11:53:27.1401384Z From https://github.com/mkgaming000/MK_color_predict
-2026-07-11T11:53:27.1402423Z  * [new ref]         d8a4d91cd504b2aab9f2511f00c6ecc15e8438a1 -> origin/main
-2026-07-11T11:53:27.1437695Z ##[endgroup]
-2026-07-11T11:53:27.1438783Z ##[group]Determining the checkout info
-2026-07-11T11:53:27.1440338Z ##[endgroup]
-2026-07-11T11:53:27.1446449Z [command]/usr/bin/git sparse-checkout disable
-2026-07-11T11:53:27.1493270Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
-2026-07-11T11:53:27.1524288Z ##[group]Checking out the ref
-2026-07-11T11:53:27.1527789Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
-2026-07-11T11:53:27.1668127Z Switched to a new branch 'main'
-2026-07-11T11:53:27.1672090Z branch 'main' set up to track 'origin/main'.
-2026-07-11T11:53:27.1678418Z ##[endgroup]
-2026-07-11T11:53:27.1723676Z [command]/usr/bin/git log -1 --format=%H
-2026-07-11T11:53:27.1749442Z d8a4d91cd504b2aab9f2511f00c6ecc15e8438a1
+﻿2026-07-11T12:47:48.2957044Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-07-11T12:47:48.2971322Z ##[group]Run actions/checkout@v4
+2026-07-11T12:47:48.2972021Z with:
+2026-07-11T12:47:48.2972867Z   repository: mkgaming000/MK_color_predict
+2026-07-11T12:47:48.2978231Z   token: ***
+2026-07-11T12:47:48.2978644Z   ssh-strict: true
+2026-07-11T12:47:48.2978938Z   ssh-user: git
+2026-07-11T12:47:48.2980166Z   persist-credentials: true
+2026-07-11T12:47:48.2981015Z   clean: true
+2026-07-11T12:47:48.2981377Z   sparse-checkout-cone-mode: true
+2026-07-11T12:47:48.2982120Z   fetch-depth: 1
+2026-07-11T12:47:48.2982526Z   fetch-tags: false
+2026-07-11T12:47:48.2983345Z   show-progress: true
+2026-07-11T12:47:48.2983757Z   lfs: false
+2026-07-11T12:47:48.2984021Z   submodules: false
+2026-07-11T12:47:48.2984327Z   set-safe-directory: true
+2026-07-11T12:47:48.3062537Z env:
+2026-07-11T12:47:48.3063233Z   GRADLE_OPTS: -Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2
+2026-07-11T12:47:48.3064110Z ##[endgroup]
+2026-07-11T12:47:48.4065621Z Syncing repository: mkgaming000/MK_color_predict
+2026-07-11T12:47:48.4067649Z ##[group]Getting Git version info
+2026-07-11T12:47:48.4068477Z Working directory is '/home/runner/work/MK_color_predict/MK_color_predict'
+2026-07-11T12:47:48.4069673Z [command]/usr/bin/git version
+2026-07-11T12:47:48.4112365Z git version 2.54.0
+2026-07-11T12:47:48.4167413Z ##[endgroup]
+2026-07-11T12:47:48.4182584Z Temporarily overriding HOME='/home/runner/work/_temp/7330f050-2345-476a-a3a4-2b20312aebbb' before making global git config changes
+2026-07-11T12:47:48.4184271Z Adding repository directory to the temporary git global config as a safe directory
+2026-07-11T12:47:48.4187879Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/MK_color_predict/MK_color_predict
+2026-07-11T12:47:48.4241584Z Deleting the contents of '/home/runner/work/MK_color_predict/MK_color_predict'
+2026-07-11T12:47:48.4246297Z ##[group]Initializing the repository
+2026-07-11T12:47:48.4252964Z [command]/usr/bin/git init /home/runner/work/MK_color_predict/MK_color_predict
+2026-07-11T12:47:48.4364929Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-07-11T12:47:48.4366896Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-07-11T12:47:48.4367951Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-07-11T12:47:48.4368880Z hint: call:
+2026-07-11T12:47:48.4369483Z hint:
+2026-07-11T12:47:48.4370505Z hint: 	git config --global init.defaultBranch <name>
+2026-07-11T12:47:48.4371224Z hint:
+2026-07-11T12:47:48.4372068Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-07-11T12:47:48.4373119Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-07-11T12:47:48.4373918Z hint:
+2026-07-11T12:47:48.4374560Z hint: 	git branch -m <name>
+2026-07-11T12:47:48.4375225Z hint:
+2026-07-11T12:47:48.4376071Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-07-11T12:47:48.4377069Z Initialized empty Git repository in /home/runner/work/MK_color_predict/MK_color_predict/.git/
+2026-07-11T12:47:48.4389348Z [command]/usr/bin/git remote add origin https://github.com/mkgaming000/MK_color_predict
+2026-07-11T12:47:48.4433031Z ##[endgroup]
+2026-07-11T12:47:48.4433559Z ##[group]Disabling automatic garbage collection
+2026-07-11T12:47:48.4438474Z [command]/usr/bin/git config --local gc.auto 0
+2026-07-11T12:47:48.4470869Z ##[endgroup]
+2026-07-11T12:47:48.4471524Z ##[group]Setting up auth
+2026-07-11T12:47:48.4479728Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-07-11T12:47:48.4518347Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-07-11T12:47:48.4906594Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-07-11T12:47:48.4946539Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-07-11T12:47:48.5191023Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-07-11T12:47:48.5229086Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-07-11T12:47:48.5454523Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-07-11T12:47:48.5493338Z ##[endgroup]
+2026-07-11T12:47:48.5494421Z ##[group]Fetching the repository
+2026-07-11T12:47:48.5504184Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +907061ce2dc069700f42ad721d2dffc1e9e28ccc:refs/remotes/origin/main
+2026-07-11T12:47:49.0230701Z From https://github.com/mkgaming000/MK_color_predict
+2026-07-11T12:47:49.0231998Z  * [new ref]         907061ce2dc069700f42ad721d2dffc1e9e28ccc -> origin/main
+2026-07-11T12:47:49.0273678Z ##[endgroup]
+2026-07-11T12:47:49.0274442Z ##[group]Determining the checkout info
+2026-07-11T12:47:49.0275851Z ##[endgroup]
+2026-07-11T12:47:49.0283126Z [command]/usr/bin/git sparse-checkout disable
+2026-07-11T12:47:49.0335526Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-07-11T12:47:49.0369072Z ##[group]Checking out the ref
+2026-07-11T12:47:49.0374604Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-07-11T12:47:49.0540004Z Switched to a new branch 'main'
+2026-07-11T12:47:49.0542381Z branch 'main' set up to track 'origin/main'.
+2026-07-11T12:47:49.0549625Z ##[endgroup]
+2026-07-11T12:47:49.0602148Z [command]/usr/bin/git log -1 --format=%H
+2026-07-11T12:47:49.0631221Z 907061ce2dc069700f42ad721d2dffc1e9e28ccc
