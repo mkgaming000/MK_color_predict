@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.aicolorpredict.analytics.domain.model.AppColor
+import com.aicolorpredict.analytics.domain.model.ColorPrediction
 import com.aicolorpredict.analytics.domain.model.ColorRound
 import com.aicolorpredict.analytics.ui.components.GlassCard
 import com.aicolorpredict.analytics.ui.theme.NumberGreen
