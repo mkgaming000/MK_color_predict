@@ -14,6 +14,7 @@ import com.aicolorpredict.analytics.data.repository.ColorPredictionRepositoryImp
 import com.aicolorpredict.analytics.data.repository.ColorRoundRepository
 import com.aicolorpredict.analytics.data.repository.ColorRoundRepositoryImpl
 import com.aicolorpredict.analytics.util.AppDispatchers
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
