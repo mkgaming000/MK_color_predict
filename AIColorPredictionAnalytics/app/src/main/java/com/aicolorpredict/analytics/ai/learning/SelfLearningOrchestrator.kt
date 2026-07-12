@@ -4,19 +4,16 @@ import android.util.Log
 import com.aicolorpredict.analytics.ai.base.ModelRegistry
 import com.aicolorpredict.analytics.data.repository.PredictionRepository
 import com.aicolorpredict.analytics.data.repository.RoundRepository
-import com.aicolorpredict.analytics.domain.model.ModelOutput
-import com.aicolorpredict.analytics.domain.model.Round
-import com.aicolorpredict.analytics.domain.usecase.PredictUseCase
 import com.aicolorpredict.analytics.domain.usecase.UpdateModelPerformanceUseCase
-import kotlinx.coroutines.withContext
 import com.aicolorpredict.analytics.util.AppDispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
  * The self-learning orchestrator.
  *
- * Coordinates the full learning cycle after every new round:
+ * Coordinates the learning cycle after every new round:
  *
  *   1. **Incremental statistics update** — O(1) update to the
  *      [IncrementalStatsCache] (frequency, transitions, colors, gaps).
@@ -27,12 +24,10 @@ import javax.inject.Singleton
  *      ensemble naturally down-weights stale models via the EMA decay.
  *   4. **Performance metrics persistence** — recomputes Top-K, LogLoss,
  *      Brier, P/R/F1 for every model and saves to Room.
- *   5. **Fresh prediction** — generates the next-round prediction using
- *      the newly-adapted weights.
  *
- * The orchestrator is idempotent — calling it twice with the same round
- * is safe (the reward update is a no-op if the prediction was already
- * resolved).
+ * **Does NOT generate predictions** — that's [PredictUseCase]'s job. This
+ * breaks what would otherwise be a dependency cycle
+ * (Orchestrator → PredictUseCase → Orchestrator).
  *
  * All work runs on [AppDispatchers.default] so the UI thread is never
  * blocked, even for 1M+ history rebuilds.
@@ -46,7 +41,6 @@ class SelfLearningOrchestrator @Inject constructor(
     private val roundRepo: RoundRepository,
     private val predictionRepo: PredictionRepository,
     private val updatePerformanceUseCase: UpdateModelPerformanceUseCase,
-    private val predictUseCase: PredictUseCase,
     private val dispatchers: AppDispatchers
 ) {
 
@@ -83,7 +77,6 @@ class SelfLearningOrchestrator @Inject constructor(
                     actual = actual
                 )
             }
-            registry.calibratorFor(name)
             weightingEngine.registerModel(name)
         }
         weightingEngine.rebuildFrom(records)
@@ -93,15 +86,14 @@ class SelfLearningOrchestrator @Inject constructor(
     /**
      * Called after a new round is saved.
      *
-     * Performs the full self-learning cycle:
+     * Performs the self-learning cycle:
      *   1. O(1) stats update
      *   2. Resolve previous round's predictions → reward update
      *   3. Drift check
      *   4. Performance metrics persistence
      *
-     * Does NOT generate a new prediction — the caller (PredictUseCase or the
-     * ViewModel) is responsible for that. This separation lets the UI show
-     * a loading state during prediction without blocking the learning cycle.
+     * Does NOT generate a new prediction — the caller (ViewModel) is
+     * responsible for that via [PredictUseCase] after this returns.
      */
     suspend fun onNewRound(number: Int, previousRoundId: Long?) = withContext(dispatchers.default) {
         // 1. O(1) incremental stats update

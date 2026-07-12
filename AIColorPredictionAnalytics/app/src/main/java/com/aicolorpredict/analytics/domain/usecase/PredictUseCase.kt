@@ -6,7 +6,6 @@ import com.aicolorpredict.analytics.ai.ensemble.AdaptiveWeightingModel
 import com.aicolorpredict.analytics.ai.ensemble.EnsembleModel
 import com.aicolorpredict.analytics.ai.learning.AdaptiveWeightingEngine
 import com.aicolorpredict.analytics.ai.learning.IncrementalStatsCache
-import com.aicolorpredict.analytics.ai.learning.SelfLearningOrchestrator
 import com.aicolorpredict.analytics.data.repository.PredictionRepository
 import com.aicolorpredict.analytics.data.repository.RoundRepository
 import com.aicolorpredict.analytics.domain.model.Prediction
@@ -42,12 +41,15 @@ class PredictUseCase @Inject constructor(
     private val ensemble: EnsembleModel,
     private val adaptive: AdaptiveWeightingModel,
     private val weightingEngine: AdaptiveWeightingEngine,
-    private val orchestrator: SelfLearningOrchestrator,
+    private val statsCache: IncrementalStatsCache,
     private val dispatchers: AppDispatchers
 ) {
     suspend operator fun invoke(): Prediction? = withContext(dispatchers.default) {
-        // Ensure the learning engine is initialised (no-op if already done)
-        orchestrator.initialise()
+        // Ensure the incremental stats cache is initialised (no-op if already done)
+        if (!statsCache.isInitialized()) {
+            val history = roundRepo.lastN(1000000).map { it.number }
+            statsCache.rebuildFrom(history)
+        }
 
         val recentRounds = roundRepo.lastN(1000)
         if (recentRounds.isEmpty()) return@withContext null
