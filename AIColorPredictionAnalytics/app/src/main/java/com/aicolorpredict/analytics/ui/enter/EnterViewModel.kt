@@ -1,14 +1,12 @@
 package com.aicolorpredict.analytics.ui.enter
 
-import android.app.Application
-import android.net.Uri
-import android.util.Log
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aicolorpredict.analytics.data.repository.RoundRepository
-import com.aicolorpredict.analytics.domain.usecase.AddRoundUseCase
-import com.aicolorpredict.analytics.domain.usecase.PredictUseCase
-import com.aicolorpredict.analytics.domain.usecase.UpdateModelPerformanceUseCase
+import com.aicolorpredict.analytics.domain.model.AppColor
+import com.aicolorpredict.analytics.domain.usecase.AddColorRoundUseCase
+import com.aicolorpredict.analytics.domain.usecase.PredictColorUseCase
+import com.aicolorpredict.analytics.domain.usecase.UpdateColorPerformanceUseCase
+import com.aicolorpredict.analytics.ai.color.ColorModelRegistry
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,86 +15,36 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class EnterUiState(
-    val selectedNumber: Int? = null,
-    val epochMs: Long = System.currentTimeMillis(),
-    val roundNumber: String = "",
     val isSaving: Boolean = false,
-    val saved: Boolean = false,
+    val savedColor: AppColor? = null,
     val errorMessage: String? = null
 )
 
-/**
- * Enter Result screen ViewModel.
- *
- * Handles the save-and-retrain cycle: when the user taps Save, we
- *   1. add the round (which resolves the previous prediction),
- *   2. update model performance metrics,
- *   3. generate a fresh prediction for the new "next" round.
- *
- * The dashboard's Flow observer picks up the new round automatically — no
- * explicit cross-screen refresh needed.
- */
 @HiltViewModel
 class EnterViewModel @Inject constructor(
-    application: Application,
-    private val addRoundUseCase: AddRoundUseCase,
-    private val updatePerformanceUseCase: UpdateModelPerformanceUseCase,
-    private val predictUseCase: PredictUseCase
-) : AndroidViewModel(application) {
+    private val addColorRoundUseCase: AddColorRoundUseCase,
+    private val updatePerformanceUseCase: UpdateColorPerformanceUseCase,
+    private val predictUseCase: PredictColorUseCase,
+    private val registry: ColorModelRegistry
+) : ViewModel() {
 
     private val _state = MutableStateFlow(EnterUiState())
     val state: StateFlow<EnterUiState> = _state.asStateFlow()
 
-    fun selectNumber(n: Int) {
-        Log.d("EnterVM", "Number selected: $n")
-        _state.value = _state.value.copy(selectedNumber = n, saved = false, errorMessage = null)
-    }
-
-    fun setEpochMs(ms: Long) {
-        _state.value = _state.value.copy(epochMs = ms)
-    }
-
-    fun setRoundNumber(v: String) {
-        _state.value = _state.value.copy(roundNumber = v.filter { it.isDigit() }.take(10))
-    }
-
-    fun cancel() {
-        Log.d("EnterVM", "Cancel — clearing selection")
-        _state.value = _state.value.copy(selectedNumber = null, saved = false, errorMessage = null)
-    }
-
-    fun save() {
-        val number = _state.value.selectedNumber
-        if (number == null) {
-            Log.w("EnterVM", "Save called with no number selected")
-            _state.value = _state.value.copy(errorMessage = "Select a number first")
-            return
-        }
-        Log.d("EnterVM", "Save button clicked — number=$number, epochMs=${_state.value.epochMs}")
+    fun saveColor(color: AppColor) {
         viewModelScope.launch {
-            _state.value = _state.value.copy(isSaving = true, errorMessage = null, saved = false)
+            _state.value = _state.value.copy(isSaving = true, errorMessage = null)
             try {
-                Log.d("EnterVM", "Database insert started")
-                addRoundUseCase(number, _state.value.epochMs)
-                Log.d("EnterVM", "Database insert completed")
-                Log.d("EnterVM", "Updating model performance...")
-                updatePerformanceUseCase()
-                Log.d("EnterVM", "Generating fresh prediction...")
+                addColorRoundUseCase(color)
+                updatePerformanceUseCase(registry.names)
                 predictUseCase()
-                Log.d("EnterVM", "Prediction refreshed")
-                _state.value = _state.value.copy(isSaving = false, saved = true)
+                _state.value = _state.value.copy(isSaving = false, savedColor = color)
             } catch (t: Throwable) {
-                Log.e("EnterVM", "Save failed", t)
-                _state.value = _state.value.copy(isSaving = false, errorMessage = t.message ?: "Save failed")
+                _state.value = _state.value.copy(isSaving = false, errorMessage = t.message)
             }
         }
     }
 
-    fun resetSaved() {
-        _state.value = _state.value.copy(saved = false)
-    }
-
-    fun consumeError() {
-        _state.value = _state.value.copy(errorMessage = null)
-    }
+    fun consumeSaved() { _state.value = _state.value.copy(savedColor = null) }
+    fun consumeError() { _state.value = _state.value.copy(errorMessage = null) }
 }

@@ -2,28 +2,26 @@ package com.aicolorpredict.analytics.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
-import com.aicolorpredict.analytics.data.local.dao.ModelPerformanceDao
-import com.aicolorpredict.analytics.data.local.dao.PredictionDao
-import com.aicolorpredict.analytics.data.local.dao.RoundDao
-import com.aicolorpredict.analytics.data.local.entity.ModelPerformanceEntity
-import com.aicolorpredict.analytics.data.local.entity.PredictionEntity
-import com.aicolorpredict.analytics.data.local.entity.RoundEntity
+import com.aicolorpredict.analytics.data.local.dao.ColorModelPerformanceDao
+import com.aicolorpredict.analytics.data.local.dao.ColorPredictionDao
+import com.aicolorpredict.analytics.data.local.dao.ColorRoundDao
+import com.aicolorpredict.analytics.data.local.entity.ColorModelPerformanceEntity
+import com.aicolorpredict.analytics.data.local.entity.ColorPredictionEntity
+import com.aicolorpredict.analytics.data.local.entity.ColorRoundEntity
 
 @Database(
     entities = [
-        RoundEntity::class,
-        PredictionEntity::class,
-        ModelPerformanceEntity::class
+        ColorRoundEntity::class,
+        ColorPredictionEntity::class,
+        ColorModelPerformanceEntity::class
     ],
     version = 1,
     exportSchema = false
 )
-@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun roundDao(): RoundDao
-    abstract fun predictionDao(): PredictionDao
-    abstract fun modelPerformanceDao(): ModelPerformanceDao
+    abstract fun colorRoundDao(): ColorRoundDao
+    abstract fun colorPredictionDao(): ColorPredictionDao
+    abstract fun colorModelPerformanceDao(): ColorModelPerformanceDao
 
     companion object {
         const val NAME = "aicp.db"

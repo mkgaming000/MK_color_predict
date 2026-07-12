@@ -1,8 +1,5 @@
 package com.aicolorpredict.analytics.ui.dashboard
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,9 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -35,40 +30,23 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.aicolorpredict.analytics.domain.model.BallColor
-import com.aicolorpredict.analytics.domain.model.Confidence
-import com.aicolorpredict.analytics.domain.model.Prediction
+import com.aicolorpredict.analytics.domain.model.AppColor
+import com.aicolorpredict.analytics.domain.model.ColorRound
 import com.aicolorpredict.analytics.ui.components.GlassCard
-import com.aicolorpredict.analytics.ui.components.Pill
-import com.aicolorpredict.analytics.ui.components.ProbabilityBar
-import com.aicolorpredict.analytics.ui.components.numberColor
-import com.aicolorpredict.analytics.ui.theme.ErrorRed
 import com.aicolorpredict.analytics.ui.theme.NumberGreen
 import com.aicolorpredict.analytics.ui.theme.NumberRed
-import com.aicolorpredict.analytics.ui.theme.NumberViolet
-import com.aicolorpredict.analytics.ui.theme.SuccessGreen
-import com.aicolorpredict.analytics.ui.theme.WarningAmber
 
 @Composable
-fun DashboardScreen(
-    vm: DashboardViewModel = hiltViewModel()
-) {
+fun DashboardScreen(vm: DashboardViewModel = hiltViewModel()) {
     val state by vm.state.collectAsStateWithLifecycle()
 
-    Scaffold(
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = { vm.refreshPrediction() },
-                containerColor = MaterialTheme.colorScheme.primary,
-                contentColor = MaterialTheme.colorScheme.onPrimary
-            ) {
-                Icon(Icons.Filled.Refresh, contentDescription = "Refresh prediction")
-            }
+    Scaffold(floatingActionButton = {
+        FloatingActionButton(onClick = { vm.refreshPrediction() }, containerColor = MaterialTheme.colorScheme.primary) {
+            Icon(Icons.Filled.Refresh, contentDescription = "Refresh")
         }
-    ) { padding ->
+    }) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -77,211 +55,96 @@ fun DashboardScreen(
                 .padding(horizontal = 16.dp, vertical = 12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            // Header
-            Text(
-                text = "MK Color Predict",
-                style = MaterialTheme.typography.headlineSmall,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onBackground
-            )
-            Text(
-                text = "Statistical estimates from historical data — not a guarantee of future outcomes.",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+            Text("MK Color Predict", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
+            Text("Statistical estimates from historical data — not a guarantee.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
 
-            // Loading overlay
-            AnimatedVisibility(visible = state.isLoading, enter = fadeIn(), exit = fadeOut()) {
+            if (state.isLoading) {
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     CircularProgressIndicator(strokeWidth = 2.dp, modifier = Modifier.size(16.dp))
-                    Text("Computing prediction…", style = MaterialTheme.typography.bodySmall)
+                    Text("Computing…", style = MaterialTheme.typography.bodySmall)
                 }
             }
 
-            // Error
-            state.errorMessage?.let {
-                GlassCard { Text("Error: $it", color = ErrorRed) }
-            }
+            state.errorMessage?.let { Text("Error: $it", color = MaterialTheme.colorScheme.error) }
 
-            // Current Prediction card
-            CurrentPredictionCard(state.latestPrediction, state.totalRounds)
-
-            // Last entered number + status
-            LastEnteredCard(state.recentRounds)
-
-            // Recent history (compact)
-            RecentHistoryCard(state.recentRounds)
-
-            Spacer(Modifier.height(80.dp)) // FAB clearance
+            PredictionCard(state.latestPrediction, state.totalRounds)
+            RecentCard(state.recentRounds)
+            Spacer(Modifier.height(80.dp))
         }
     }
 }
 
 @Composable
-private fun CurrentPredictionCard(prediction: Prediction?, totalRounds: Int) {
+private fun PredictionCard(pred: ColorPrediction?, total: Int) {
     GlassCard {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
             Column {
-                Text(
-                    "Current Prediction",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.SemiBold
-                )
-                Text(
-                    "Based on $totalRounds rounds",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                Text("Next Color Estimate", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+                Text("Based on $total rounds", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
-            prediction?.let { Pill(it.consensusLevel.label, consensusColor(it)) }
+            pred?.let {
+                Text(it.consensusLevel.label, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.primary)
+            }
         }
-        Spacer(Modifier.height(12.dp))
+        Spacer(Modifier.height(16.dp))
 
-        if (prediction == null) {
-            Text(
-                "Tap the refresh button to generate a prediction.",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+        if (pred == null) {
+            Text("Tap refresh to generate.", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
         } else {
-            // Top 5 numbers
-            Text(
-                "Top 5 Numbers",
-                style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            Spacer(Modifier.height(8.dp))
-            prediction.top5.forEachIndexed { i, np ->
-                ProbabilityBar(rank = i + 1, number = np.number, probability = np.probability)
-                Spacer(Modifier.height(4.dp))
+            // Big probability bars
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                ColorProbBar(AppColor.RED, pred.redProbability, NumberRed, Modifier.weight(1f))
+                ColorProbBar(AppColor.GREEN, pred.greenProbability, NumberGreen, Modifier.weight(1f))
             }
             Spacer(Modifier.height(12.dp))
-
-            // Confidence + color split
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Pill(
-                    "Confidence ${"%.0f".format(prediction.calibratedConfidence * 100)}%",
-                    confidenceColor(prediction)
-                )
-                ColorSplitRow(prediction)
-            }
+            Text("Confidence: ${"%.0f".format(pred.confidence * 100)}%", style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium)
+            Spacer(Modifier.height(8.dp))
+            Text(pred.explanation, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
     }
 }
 
 @Composable
-private fun ColorSplitRow(prediction: Prediction) {
-    Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-        ColorChip("R", NumberRed, prediction.colorProbabilities[BallColor.RED]!!)
-        ColorChip("G", NumberGreen, prediction.colorProbabilities[BallColor.GREEN]!!)
-        ColorChip("V", NumberViolet, prediction.colorProbabilities[BallColor.VIOLET]!!)
-    }
-}
-
-@Composable
-private fun ColorChip(label: String, color: Color, value: Double) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Box(modifier = Modifier.size(10.dp).clip(CircleShape).background(color))
-        Spacer(Modifier.width(4.dp))
-        Text(
-            "$label ${"%.0f".format(value * 100)}%",
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-    }
-}
-
-@Composable
-private fun LastEnteredCard(recentRounds: List<com.aicolorpredict.analytics.domain.model.Round>) {
-    val last = recentRounds.firstOrNull()
-    GlassCard {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+private fun ColorProbBar(color: AppColor, prob: Double, barColor: Color, modifier: Modifier = Modifier) {
+    Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(80.dp)
+                .clip(RoundedCornerShape(16.dp))
+                .background(barColor.copy(alpha = 0.15f)),
+            contentAlignment = Alignment.Center
         ) {
-            Column {
-                Text("Last Entered", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                if (last == null) {
-                    Text("No rounds yet", style = MaterialTheme.typography.bodyMedium)
-                } else {
-                    Text(
-                        "Number ${last.number}",
-                        style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.Bold,
-                        color = numberColor(last.number)
-                    )
-                    Text(
-                        "${last.colors.joinToString(" · ") { it.display }}",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
-            if (last != null) {
-                Box(
-                    modifier = Modifier
-                        .size(56.dp)
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(numberColor(last.number).copy(alpha = 0.18f)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        last.number.toString(),
-                        style = MaterialTheme.typography.headlineMedium,
-                        fontWeight = FontWeight.Bold,
-                        color = numberColor(last.number)
-                    )
-                }
-            }
+            Text(
+                "${"%.1f".format(prob * 100)}%",
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.Bold,
+                color = barColor
+            )
         }
+        Spacer(Modifier.height(4.dp))
+        Text(color.display, style = MaterialTheme.typography.labelMedium, color = barColor, fontWeight = FontWeight.SemiBold)
     }
 }
 
 @Composable
-private fun RecentHistoryCard(recentRounds: List<com.aicolorpredict.analytics.domain.model.Round>) {
+private fun RecentCard(rounds: List<ColorRound>) {
     GlassCard {
-        Text("Recent History", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+        Text("Recent", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
         Spacer(Modifier.height(8.dp))
-        if (recentRounds.isEmpty()) {
-            Text("No rounds yet — go to the Enter tab to log one.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        if (rounds.isEmpty()) {
+            Text("No rounds yet.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
         } else {
-            recentRounds.take(6).forEach { r ->
-                Row(
-                    modifier = Modifier.fillMaxWidth().padding(vertical = 3.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text("#${r.id}", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                rounds.take(15).forEach { r ->
                     Box(
-                        modifier = Modifier.size(28.dp).clip(RoundedCornerShape(8.dp)).background(numberColor(r.number).copy(alpha = 0.18f)),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(r.number.toString(), fontWeight = FontWeight.Bold, color = numberColor(r.number), fontSize = 14.sp)
-                    }
-                    Text(r.colors.joinToString(" · ") { it.display }, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        modifier = Modifier
+                            .size(28.dp)
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(if (r.color == AppColor.RED) NumberRed else NumberGreen)
+                    )
                 }
             }
         }
     }
-}
-
-private fun consensusColor(p: Prediction): Color = when (p.consensusLevel) {
-    com.aicolorpredict.analytics.domain.model.ConsensusLevel.STRONG -> SuccessGreen
-    com.aicolorpredict.analytics.domain.model.ConsensusLevel.MODERATE -> WarningAmber
-    com.aicolorpredict.analytics.domain.model.ConsensusLevel.WEAK -> ErrorRed
-}
-
-private fun confidenceColor(p: Prediction): Color = when {
-    p.calibratedConfidence >= 0.5 -> SuccessGreen
-    p.calibratedConfidence >= 0.25 -> WarningAmber
-    else -> ErrorRed
 }

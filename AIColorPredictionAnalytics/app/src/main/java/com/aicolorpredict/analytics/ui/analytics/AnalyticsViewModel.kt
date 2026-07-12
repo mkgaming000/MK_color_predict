@@ -2,14 +2,8 @@ package com.aicolorpredict.analytics.ui.analytics
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aicolorpredict.analytics.data.repository.PredictionRepository
-import com.aicolorpredict.analytics.data.repository.RoundRepository
-import com.aicolorpredict.analytics.domain.model.AccuracyMetrics
-import com.aicolorpredict.analytics.feature.TransitionAnalytics
-import com.aicolorpredict.analytics.domain.model.TransitionStats
-import android.util.Log
-import com.aicolorpredict.analytics.ai.learning.BacktestingEngine
-import com.aicolorpredict.analytics.metrics.MetricsCalculator
+import com.aicolorpredict.analytics.data.repository.ColorRoundRepository
+import com.aicolorpredict.analytics.domain.model.AppColor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,21 +13,23 @@ import javax.inject.Inject
 
 data class AnalyticsUiState(
     val isLoading: Boolean = false,
-    val numberFrequency: Map<Int, Int> = emptyMap(),
-    val hotNumbers: List<Int> = emptyList(),
-    val coldNumbers: List<Int> = emptyList(),
-    val transitionStats: TransitionStats? = null,
-    val transitionFrom: Int = 0,
-    val systemMetrics: AccuracyMetrics = AccuracyMetrics.EMPTY,
-    val backtestReport: BacktestingEngine.BacktestReport? = null,
-    val errorMessage: String? = null
+    val redCount: Int = 0,
+    val greenCount: Int = 0,
+    val totalRounds: Int = 0,
+    val redAfterRed: Int = 0,
+    val redAfterGreen: Int = 0,
+    val greenAfterRed: Int = 0,
+    val greenAfterGreen: Int = 0,
+    val currentStreak: Int = 0,
+    val currentStreakColor: AppColor = AppColor.RED,
+    val longestRedStreak: Int = 0,
+    val longestGreenStreak: Int = 0,
+    val recentRedPct: Double = 0.5
 )
 
 @HiltViewModel
 class AnalyticsViewModel @Inject constructor(
-    private val roundRepo: RoundRepository,
-    private val predictionRepo: PredictionRepository,
-    private val backtestingEngine: BacktestingEngine
+    private val roundRepo: ColorRoundRepository
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(AnalyticsUiState(isLoading = true))
@@ -43,40 +39,37 @@ class AnalyticsViewModel @Inject constructor(
 
     fun refresh() {
         viewModelScope.launch {
-            _state.value = _state.value.copy(isLoading = true, errorMessage = null)
-            try {
-                val hist = roundRepo.numberHistogram()
-                val total = hist.values.sum().coerceAtLeast(1)
-                val sorted = (0..9).sortedByDescending { hist[it] ?: 0 }
-                val hot = sorted.take(3)
-                val cold = sorted.takeLast(3).reversed()
-                val perModel = predictionRepo.allModelPerformance()
-                val sys = MetricsCalculator.systemMetrics(perModel)
-                val history = roundRepo.lastN(2000).map { it.number }
-                val trans = TransitionAnalytics.build(_state.value.transitionFrom, history)
-                val backtest = backtestingEngine.runBacktest(maxSamples = 500)
-                _state.value = _state.value.copy(
-                    isLoading = false,
-                    numberFrequency = hist,
-                    hotNumbers = hot,
-                    coldNumbers = cold,
-                    transitionStats = trans,
-                    systemMetrics = sys,
-                    backtestReport = backtest
-                )
-            } catch (t: Throwable) {
-                _state.value = _state.value.copy(isLoading = false, errorMessage = t.message ?: "Unknown error")
+            val rounds = roundRepo.lastN(2000)
+            if (rounds.isEmpty()) {
+                _state.value = _state.value.copy(isLoading = false)
+                return@launch
             }
-        }
-    }
-
-    fun setTransitionFrom(n: Int) {
-        Log.d("AnalyticsVM", "Transition from: $n")
-        viewModelScope.launch {
-            _state.value = _state.value.copy(transitionFrom = n)
-            val history = roundRepo.lastN(2000).map { it.number }
-            val trans = TransitionAnalytics.build(n, history)
-            _state.value = _state.value.copy(transitionStats = trans)
+            var red = 0; var green = 0
+            var rAfterR = 0; var rAfterG = 0; var gAfterR = 0; var gAfterG = 0
+            var longestR = 0; var longestG = 0; var curStreak = 1
+            for (i in rounds.indices) {
+                if (rounds[i].color == AppColor.RED) red++ else green++
+                if (i > 0) {
+                    val prev = rounds[i - 1].color
+                    val cur = rounds[i].color
+                    if (prev == AppColor.RED && cur == AppColor.RED) rAfterR++
+                    if (prev == AppColor.GREEN && cur == AppColor.RED) rAfterG++
+                    if (prev == AppColor.RED && cur == AppColor.GREEN) gAfterR++
+                    if (prev == AppColor.GREEN && cur == AppColor.GREEN) gAfterG++
+                    if (cur == prev) curStreak++ else curStreak = 1
+                }
+                if (rounds[i].color == AppColor.RED) longestR = maxOf(longestR, curStreak) else longestG = maxOf(longestG, curStreak)
+            }
+            val recent = rounds.takeLast(minOf(50, rounds.size))
+            val recentRed = recent.count { it.color == AppColor.RED }.toDouble() / recent.size
+            _state.value = AnalyticsUiState(
+                isLoading = false,
+                redCount = red, greenCount = green, totalRounds = rounds.size,
+                redAfterRed = rAfterR, redAfterGreen = rAfterG, greenAfterRed = gAfterR, greenAfterGreen = gAfterG,
+                currentStreak = curStreak, currentStreakColor = rounds.last().color,
+                longestRedStreak = longestR, longestGreenStreak = longestG,
+                recentRedPct = recentRed
+            )
         }
     }
 }
