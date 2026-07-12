@@ -1,11 +1,11 @@
-﻿2026-07-11T12:47:49.2876482Z ##[group]Run echo "ANDROID_HOME=$ANDROID_HOME"
-2026-07-11T12:47:49.2876928Z [36;1mecho "ANDROID_HOME=$ANDROID_HOME"[0m
-2026-07-11T12:47:49.2877305Z [36;1mecho "sdk.dir=$ANDROID_HOME" > local.properties[0m
-2026-07-11T12:47:49.2877710Z [36;1msdkmanager --list_installed 2>/dev/null || true[0m
-2026-07-11T12:47:49.3078303Z shell: /usr/bin/bash -e {0}
-2026-07-11T12:47:49.3078674Z env:
-2026-07-11T12:47:49.3079004Z   GRADLE_OPTS: -Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2
-2026-07-11T12:47:49.3079515Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.19-10/x64
-2026-07-11T12:47:49.3080437Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.19-10/x64
-2026-07-11T12:47:49.3080843Z ##[endgroup]
-2026-07-11T12:47:49.3161382Z ANDROID_HOME=/usr/local/lib/android/sdk
+﻿2026-07-12T05:42:49.4817620Z ##[group]Run echo "ANDROID_HOME=$ANDROID_HOME"
+2026-07-12T05:42:49.4819675Z [36;1mecho "ANDROID_HOME=$ANDROID_HOME"[0m
+2026-07-12T05:42:49.4821972Z [36;1mecho "sdk.dir=$ANDROID_HOME" > local.properties[0m
+2026-07-12T05:42:49.4824281Z [36;1msdkmanager --list_installed 2>/dev/null || true[0m
+2026-07-12T05:42:49.5018959Z shell: /usr/bin/bash -e {0}
+2026-07-12T05:42:49.5020095Z env:
+2026-07-12T05:42:49.5021556Z   GRADLE_OPTS: -Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2
+2026-07-12T05:42:49.5023447Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.19-10/x64
+2026-07-12T05:42:49.5025473Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.19-10/x64
+2026-07-12T05:42:49.5027063Z ##[endgroup]
+2026-07-12T05:42:49.5131886Z ANDROID_HOME=/usr/local/lib/android/sdk

@@ -1,33 +1,33 @@
-﻿2026-07-11T12:47:46.1113383Z Current runner version: '2.335.1'
-2026-07-11T12:47:46.1139258Z ##[group]Runner Image Provisioner
-2026-07-11T12:47:46.1140805Z Hosted Compute Agent
-2026-07-11T12:47:46.1141546Z Version: 20260624.560
-2026-07-11T12:47:46.1142205Z Commit: 925d229a51159bc391ae97e54a2dd1fe20af789d
-2026-07-11T12:47:46.1142946Z Build Date: 2026-06-24T18:26:47Z
-2026-07-11T12:47:46.1143840Z Worker ID: {e86dd630-65f0-425d-903f-f99b62a9016d}
-2026-07-11T12:47:46.1144604Z Azure Region: westus
-2026-07-11T12:47:46.1145552Z ##[endgroup]
-2026-07-11T12:47:46.1147129Z ##[group]Operating System
-2026-07-11T12:47:46.1147801Z Ubuntu
-2026-07-11T12:47:46.1148415Z 24.04.4
-2026-07-11T12:47:46.1148971Z LTS
-2026-07-11T12:47:46.1149490Z ##[endgroup]
-2026-07-11T12:47:46.1150484Z ##[group]Runner Image
-2026-07-11T12:47:46.1151134Z Image: ubuntu-24.04
-2026-07-11T12:47:46.1151776Z Version: 20260705.232.1
-2026-07-11T12:47:46.1152877Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260705.232/images/ubuntu/Ubuntu2404-Readme.md
-2026-07-11T12:47:46.1154718Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260705.232
-2026-07-11T12:47:46.1155720Z ##[endgroup]
-2026-07-11T12:47:46.1156868Z ##[group]GITHUB_TOKEN Permissions
-2026-07-11T12:47:46.1159080Z Contents: read
-2026-07-11T12:47:46.1160026Z Metadata: read
-2026-07-11T12:47:46.1160654Z ##[endgroup]
-2026-07-11T12:47:46.1162732Z Secret source: Actions
-2026-07-11T12:47:46.1163619Z Prepare workflow directory
-2026-07-11T12:47:46.1596074Z Prepare all required actions
-2026-07-11T12:47:46.1635375Z Getting action download info
-2026-07-11T12:47:46.5138367Z Download action repository 'actions/checkout@v4' (SHA:34e114876b0b11c390a56381ad16ebd13914f8d5)
-2026-07-11T12:47:46.5966054Z Download action repository 'actions/setup-java@v4' (SHA:c1e323688fd81a25caa38c78aa6df2d33d3e20d9)
-2026-07-11T12:47:47.1321803Z Download action repository 'gradle/actions@v3' (SHA:d9c87d481d55275bb5441eef3fe0e46805f9ef70)
-2026-07-11T12:47:47.9845145Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
-2026-07-11T12:47:48.2121913Z Complete job name: Build, Test, Lint
+﻿2026-07-12T05:42:46.8428318Z Current runner version: '2.335.1'
+2026-07-12T05:42:46.8455418Z ##[group]Runner Image Provisioner
+2026-07-12T05:42:46.8456374Z Hosted Compute Agent
+2026-07-12T05:42:46.8456948Z Version: 20260624.560
+2026-07-12T05:42:46.8457755Z Commit: 925d229a51159bc391ae97e54a2dd1fe20af789d
+2026-07-12T05:42:46.8458535Z Build Date: 2026-06-24T18:26:47Z
+2026-07-12T05:42:46.8459280Z Worker ID: {1135a93a-4d4b-4729-a081-ce6fe74e9fea}
+2026-07-12T05:42:46.8460034Z Azure Region: eastus2
+2026-07-12T05:42:46.8460835Z ##[endgroup]
+2026-07-12T05:42:46.8462261Z ##[group]Operating System
+2026-07-12T05:42:46.8462905Z Ubuntu
+2026-07-12T05:42:46.8463400Z 24.04.4
+2026-07-12T05:42:46.8464406Z LTS
+2026-07-12T05:42:46.8464982Z ##[endgroup]
+2026-07-12T05:42:46.8465569Z ##[group]Runner Image
+2026-07-12T05:42:46.8466228Z Image: ubuntu-24.04
+2026-07-12T05:42:46.8466815Z Version: 20260705.232.1
+2026-07-12T05:42:46.8467941Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260705.232/images/ubuntu/Ubuntu2404-Readme.md
+2026-07-12T05:42:46.8469730Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260705.232
+2026-07-12T05:42:46.8471058Z ##[endgroup]
+2026-07-12T05:42:46.8472176Z ##[group]GITHUB_TOKEN Permissions
+2026-07-12T05:42:46.8474428Z Contents: read
+2026-07-12T05:42:46.8475109Z Metadata: read
+2026-07-12T05:42:46.8475754Z ##[endgroup]
+2026-07-12T05:42:46.8477826Z Secret source: Actions
+2026-07-12T05:42:46.8478876Z Prepare workflow directory
+2026-07-12T05:42:46.8878174Z Prepare all required actions
+2026-07-12T05:42:46.8916227Z Getting action download info
+2026-07-12T05:42:47.0622959Z Download action repository 'actions/checkout@v4' (SHA:34e114876b0b11c390a56381ad16ebd13914f8d5)
+2026-07-12T05:42:47.1305464Z Download action repository 'actions/setup-java@v4' (SHA:c1e323688fd81a25caa38c78aa6df2d33d3e20d9)
+2026-07-12T05:42:47.4163199Z Download action repository 'gradle/actions@v3' (SHA:d9c87d481d55275bb5441eef3fe0e46805f9ef70)
+2026-07-12T05:42:47.9316201Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-07-12T05:42:48.1648683Z Complete job name: Build, Test, Lint
