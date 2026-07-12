@@ -1,5 +1,8 @@
 package com.aicolorpredict.analytics.domain.usecase
 
+import android.util.Log
+import com.aicolorpredict.analytics.ai.learning.IncrementalStatsCache
+import com.aicolorpredict.analytics.ai.learning.SelfLearningOrchestrator
 import com.aicolorpredict.analytics.data.repository.PredictionRepository
 import com.aicolorpredict.analytics.data.repository.RoundRepository
 import com.aicolorpredict.analytics.util.AppDispatchers
@@ -7,14 +10,24 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 /**
- * Adds a new round to the database and resolves any unresolved predictions
- * for the *previous* round (now that we know what came after it).
+ * Adds a new round to the database and triggers the full self-learning cycle.
  *
- * This is the only entry point that mutates the rounds table from the UI.
+ * Pipeline:
+ *   1. Resolve the previous round's predictions against the new outcome.
+ *   2. Insert the new round into Room.
+ *   3. Update the incremental statistics cache (O(1)).
+ *   4. Update adaptive model weights via reward signals.
+ *   5. Run concept drift detection.
+ *   6. Persist updated performance metrics.
+ *
+ * The caller (ViewModel) is responsible for generating the next prediction
+ * via [PredictUseCase] after this use case completes.
  */
 class AddRoundUseCase @Inject constructor(
     private val roundRepo: RoundRepository,
     private val predictionRepo: PredictionRepository,
+    private val orchestrator: SelfLearningOrchestrator,
+    private val statsCache: IncrementalStatsCache,
     private val dispatchers: AppDispatchers
 ) {
     /**
@@ -24,14 +37,27 @@ class AddRoundUseCase @Inject constructor(
      */
     suspend operator fun invoke(number: Int, epochMs: Long? = null): Long = withContext(dispatchers.default) {
         require(number in 0..9) { "Number must be 0..9, was $number" }
-        // Resolve any outstanding predictions for the previous round before
-        // adding the new one. The "previous" round here is whatever the most
-        // recent round in the DB is — that's the round whose outcome was
-        // unknown until now.
+
+        // Ensure the learning engine is initialised (no-op if already done)
+        orchestrator.initialise()
+
+        // Identify the previous round (the one whose outcome we now know)
         val previousRounds = roundRepo.lastN(1)
-        previousRounds.firstOrNull()?.let { prev ->
-            predictionRepo.resolve(prev.id, number)
+        val previousRoundId = previousRounds.firstOrNull()?.id
+
+        // Resolve the previous round's predictions before inserting the new round
+        previousRoundId?.let { prev ->
+            predictionRepo.resolve(prev, number)
+            Log.d("AddRound", "Resolved predictions for round $prev with actual=$number")
         }
-        roundRepo.add(number, epochMs)
+
+        // Insert the new round
+        val newId = roundRepo.add(number, epochMs)
+        Log.d("AddRound", "Inserted new round id=$newId number=$number")
+
+        // Trigger the self-learning cycle (O(1) stats + reward update + drift check)
+        orchestrator.onNewRound(number, previousRoundId)
+
+        newId
     }
 }
