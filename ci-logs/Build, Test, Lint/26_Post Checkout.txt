@@ -1,15 +1,15 @@
-﻿2026-07-12T05:46:23.6521330Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
-2026-07-12T05:46:23.6522496Z Post job cleanup.
-2026-07-12T05:46:23.7480763Z [command]/usr/bin/git version
-2026-07-12T05:46:23.7524022Z git version 2.54.0
-2026-07-12T05:46:23.7595341Z Temporarily overriding HOME='/home/runner/work/_temp/5d744559-7695-40fe-81e8-8b61c5429811' before making global git config changes
-2026-07-12T05:46:23.7596764Z Adding repository directory to the temporary git global config as a safe directory
-2026-07-12T05:46:23.7601092Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/MK_color_predict/MK_color_predict
-2026-07-12T05:46:23.7643708Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
-2026-07-12T05:46:23.7688835Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
-2026-07-12T05:46:23.7956898Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
-2026-07-12T05:46:23.7987056Z http.https://github.com/.extraheader
-2026-07-12T05:46:23.8000274Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
-2026-07-12T05:46:23.8040953Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
-2026-07-12T05:46:23.8309806Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
-2026-07-12T05:46:23.8346645Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+﻿2026-07-12T08:01:54.4805973Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-07-12T08:01:54.4808096Z Post job cleanup.
+2026-07-12T08:01:54.5765597Z [command]/usr/bin/git version
+2026-07-12T08:01:54.5817448Z git version 2.54.0
+2026-07-12T08:01:54.5878615Z Temporarily overriding HOME='/home/runner/work/_temp/2f33df76-3e7b-4c42-a83f-95e62355ce5f' before making global git config changes
+2026-07-12T08:01:54.5880314Z Adding repository directory to the temporary git global config as a safe directory
+2026-07-12T08:01:54.5885298Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/MK_color_predict/MK_color_predict
+2026-07-12T08:01:54.5936133Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-07-12T08:01:54.5971119Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-07-12T08:01:54.6216029Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-07-12T08:01:54.6254368Z http.https://github.com/.extraheader
+2026-07-12T08:01:54.6260474Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-07-12T08:01:54.6299204Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-07-12T08:01:54.6585528Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-07-12T08:01:54.6626157Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url

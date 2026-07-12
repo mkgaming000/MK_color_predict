@@ -1,24 +1,24 @@
-﻿2026-07-12T05:46:17.9897913Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
-2026-07-12T05:46:17.9900108Z ##[group]Run actions/upload-artifact@v4
-2026-07-12T05:46:17.9900681Z with:
-2026-07-12T05:46:17.9900987Z   name: app-release-apk
-2026-07-12T05:46:17.9901531Z   path: AIColorPredictionAnalytics/app/build/outputs/apk/release/*.apk
-2026-07-12T05:46:17.9902147Z   retention-days: 30
-2026-07-12T05:46:17.9902479Z   if-no-files-found: warn
-2026-07-12T05:46:17.9902834Z   compression-level: 6
-2026-07-12T05:46:17.9903160Z   overwrite: false
-2026-07-12T05:46:17.9903490Z   include-hidden-files: false
-2026-07-12T05:46:17.9903851Z env:
-2026-07-12T05:46:17.9904289Z   GRADLE_OPTS: -Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2
-2026-07-12T05:46:17.9905048Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.19-10/x64
-2026-07-12T05:46:17.9905914Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.19-10/x64
-2026-07-12T05:46:17.9906596Z   GRADLE_ACTION_ID: gradle/actions/setup-gradle
-2026-07-12T05:46:17.9907094Z   GRADLE_BUILD_ACTION_SETUP_COMPLETED: true
-2026-07-12T05:46:17.9907808Z   GRADLE_BUILD_ACTION_CACHE_RESTORED: true
-2026-07-12T05:46:17.9908529Z   DEVELOCITY_INJECTION_INIT_SCRIPT_NAME: gradle-actions.inject-develocity.init.gradle
-2026-07-12T05:46:17.9909338Z   DEVELOCITY_AUTO_INJECTION_CUSTOM_VALUE: gradle-actions
-2026-07-12T05:46:17.9909872Z   GITHUB_DEPENDENCY_GRAPH_ENABLED: false
-2026-07-12T05:46:17.9910289Z ##[endgroup]
-2026-07-12T05:46:18.1612027Z (node:2774) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-2026-07-12T05:46:18.1613228Z (Use `node --trace-deprecation ...` to show where the warning was created)
-2026-07-12T05:46:18.1631058Z ##[warning]No files were found with the provided path: AIColorPredictionAnalytics/app/build/outputs/apk/release/*.apk. No artifacts will be uploaded.
+﻿2026-07-12T08:01:48.7928861Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-07-12T08:01:48.7931048Z ##[group]Run actions/upload-artifact@v4
+2026-07-12T08:01:48.7931456Z with:
+2026-07-12T08:01:48.7931746Z   name: app-release-apk
+2026-07-12T08:01:48.7932304Z   path: AIColorPredictionAnalytics/app/build/outputs/apk/release/*.apk
+2026-07-12T08:01:48.7932917Z   retention-days: 30
+2026-07-12T08:01:48.7933248Z   if-no-files-found: warn
+2026-07-12T08:01:48.7933599Z   compression-level: 6
+2026-07-12T08:01:48.7933926Z   overwrite: false
+2026-07-12T08:01:48.7934251Z   include-hidden-files: false
+2026-07-12T08:01:48.7934608Z env:
+2026-07-12T08:01:48.7935295Z   GRADLE_OPTS: -Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2
+2026-07-12T08:01:48.7936051Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.19-10/x64
+2026-07-12T08:01:48.7937105Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.19-10/x64
+2026-07-12T08:01:48.7937781Z   GRADLE_ACTION_ID: gradle/actions/setup-gradle
+2026-07-12T08:01:48.7938282Z   GRADLE_BUILD_ACTION_SETUP_COMPLETED: true
+2026-07-12T08:01:48.7938747Z   GRADLE_BUILD_ACTION_CACHE_RESTORED: true
+2026-07-12T08:01:48.7939453Z   DEVELOCITY_INJECTION_INIT_SCRIPT_NAME: gradle-actions.inject-develocity.init.gradle
+2026-07-12T08:01:48.7940262Z   DEVELOCITY_AUTO_INJECTION_CUSTOM_VALUE: gradle-actions
+2026-07-12T08:01:48.7940788Z   GITHUB_DEPENDENCY_GRAPH_ENABLED: false
+2026-07-12T08:01:48.7941202Z ##[endgroup]
+2026-07-12T08:01:48.9724326Z (node:2700) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-07-12T08:01:48.9726031Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-07-12T08:01:48.9745663Z ##[warning]No files were found with the provided path: AIColorPredictionAnalytics/app/build/outputs/apk/release/*.apk. No artifacts will be uploaded.

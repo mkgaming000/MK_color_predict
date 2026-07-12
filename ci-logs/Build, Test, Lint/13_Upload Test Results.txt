@@ -1,29 +1,29 @@
-﻿2026-07-12T05:46:18.1845629Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
-2026-07-12T05:46:18.1847660Z ##[group]Run actions/upload-artifact@v4
-2026-07-12T05:46:18.1848058Z with:
-2026-07-12T05:46:18.1848258Z   name: test-results
-2026-07-12T05:46:18.1848878Z   path: AIColorPredictionAnalytics/app/build/reports/tests/testDebugUnitTest/
+﻿2026-07-12T08:01:48.9966005Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-07-12T08:01:48.9968162Z ##[group]Run actions/upload-artifact@v4
+2026-07-12T08:01:48.9968577Z with:
+2026-07-12T08:01:48.9968863Z   name: test-results
+2026-07-12T08:01:48.9969935Z   path: AIColorPredictionAnalytics/app/build/reports/tests/testDebugUnitTest/
 AIColorPredictionAnalytics/app/build/reports/lint-results-debug.html
 
-2026-07-12T05:46:18.1849531Z   retention-days: 14
-2026-07-12T05:46:18.1849748Z   if-no-files-found: warn
-2026-07-12T05:46:18.1849977Z   compression-level: 6
-2026-07-12T05:46:18.1850194Z   overwrite: false
-2026-07-12T05:46:18.1850536Z   include-hidden-files: false
-2026-07-12T05:46:18.1850774Z env:
-2026-07-12T05:46:18.1851064Z   GRADLE_OPTS: -Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2
-2026-07-12T05:46:18.1851561Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.19-10/x64
-2026-07-12T05:46:18.1852102Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.19-10/x64
-2026-07-12T05:46:18.1852764Z   GRADLE_ACTION_ID: gradle/actions/setup-gradle
-2026-07-12T05:46:18.1853236Z   GRADLE_BUILD_ACTION_SETUP_COMPLETED: true
-2026-07-12T05:46:18.1853674Z   GRADLE_BUILD_ACTION_CACHE_RESTORED: true
-2026-07-12T05:46:18.1854343Z   DEVELOCITY_INJECTION_INIT_SCRIPT_NAME: gradle-actions.inject-develocity.init.gradle
-2026-07-12T05:46:18.1855028Z   DEVELOCITY_AUTO_INJECTION_CUSTOM_VALUE: gradle-actions
-2026-07-12T05:46:18.1855485Z   GITHUB_DEPENDENCY_GRAPH_ENABLED: false
-2026-07-12T05:46:18.1855834Z ##[endgroup]
-2026-07-12T05:46:18.3645423Z (node:2786) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
-2026-07-12T05:46:18.3646651Z (Use `node --trace-deprecation ...` to show where the warning was created)
-2026-07-12T05:46:18.3699320Z Multiple search paths detected. Calculating the least common ancestor of all paths
-2026-07-12T05:46:18.3712716Z The least common ancestor is /home/runner/work/MK_color_predict/MK_color_predict/AIColorPredictionAnalytics/app/build/reports. This will be the root directory of the artifact
-2026-07-12T05:46:18.3717322Z ##[warning]No files were found with the provided path: AIColorPredictionAnalytics/app/build/reports/tests/testDebugUnitTest/
+2026-07-12T08:01:48.9971115Z   retention-days: 14
+2026-07-12T08:01:48.9971483Z   if-no-files-found: warn
+2026-07-12T08:01:48.9971860Z   compression-level: 6
+2026-07-12T08:01:48.9972213Z   overwrite: false
+2026-07-12T08:01:48.9972559Z   include-hidden-files: false
+2026-07-12T08:01:48.9972950Z env:
+2026-07-12T08:01:48.9973404Z   GRADLE_OPTS: -Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2
+2026-07-12T08:01:48.9974239Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.19-10/x64
+2026-07-12T08:01:48.9975316Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.19-10/x64
+2026-07-12T08:01:48.9976041Z   GRADLE_ACTION_ID: gradle/actions/setup-gradle
+2026-07-12T08:01:48.9976578Z   GRADLE_BUILD_ACTION_SETUP_COMPLETED: true
+2026-07-12T08:01:48.9977058Z   GRADLE_BUILD_ACTION_CACHE_RESTORED: true
+2026-07-12T08:01:48.9977776Z   DEVELOCITY_INJECTION_INIT_SCRIPT_NAME: gradle-actions.inject-develocity.init.gradle
+2026-07-12T08:01:48.9978611Z   DEVELOCITY_AUTO_INJECTION_CUSTOM_VALUE: gradle-actions
+2026-07-12T08:01:48.9979170Z   GITHUB_DEPENDENCY_GRAPH_ENABLED: false
+2026-07-12T08:01:48.9979612Z ##[endgroup]
+2026-07-12T08:01:49.1669642Z (node:2712) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-07-12T08:01:49.1670973Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-07-12T08:01:49.1714049Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-07-12T08:01:49.1726728Z The least common ancestor is /home/runner/work/MK_color_predict/MK_color_predict/AIColorPredictionAnalytics/app/build/reports. This will be the root directory of the artifact
+2026-07-12T08:01:49.1731721Z ##[warning]No files were found with the provided path: AIColorPredictionAnalytics/app/build/reports/tests/testDebugUnitTest/
 AIColorPredictionAnalytics/app/build/reports/lint-results-debug.html. No artifacts will be uploaded.
