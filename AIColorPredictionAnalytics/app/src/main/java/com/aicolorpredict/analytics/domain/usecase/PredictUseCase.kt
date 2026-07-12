@@ -17,21 +17,17 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 /**
- * Core prediction use case.
+ * Core prediction use case — performance-optimized.
  *
- * Pipeline:
- *   1. Ensure the learning engine is initialised (one-time O(n) rebuild).
- *   2. Load the most recent 1000 rounds for feature engineering.
- *   3. Identify the anchor round (most recent) — predictions are keyed to
- *      its id so they can be resolved when the next round arrives.
- *   4. Build the [FeatureSet] for the pending round.
- *   5. Ask every model in the [ModelRegistry] for its [ModelOutput] — models
- *      run in parallel on [AppDispatchers.default].
- *   6. Persist every model output (keyed to the anchor round).
- *   7. Combine via the [AdaptiveWeightingModel], which pulls the current
- *      reward-based weights from [AdaptiveWeightingEngine].
- *
- * The returned [Prediction] is what every screen displays.
+ * Key optimizations:
+ *   1. **No DB query for history** — uses [IncrementalStatsCache.recentWindow]
+ *      (O(1) memory access) instead of `roundRepo.lastN(1000)` (O(n) DB query).
+ *   2. **Parallel model execution** — all 15 models run concurrently on
+ *      [AppDispatchers.default] via `async`/`awaitAll`.
+ *   3. **One-time cache init** — the stats cache is rebuilt from DB only on
+ *      cold start; every subsequent prediction is O(1) for stats + O(k) for
+ *      model inference.
+ *   4. **Timing logs** — every phase is timed so bottlenecks are visible.
  */
 class PredictUseCase @Inject constructor(
     private val roundRepo: RoundRepository,
@@ -45,29 +41,36 @@ class PredictUseCase @Inject constructor(
     private val dispatchers: AppDispatchers
 ) {
     suspend operator fun invoke(): Prediction? = withContext(dispatchers.default) {
-        // Ensure the incremental stats cache is initialised (no-op if already done)
+        val t0 = System.nanoTime()
+
+        // One-time cache init (O(n) on cold start only)
         if (!statsCache.isInitialized()) {
+            Log.d("Predict", "Cold start — rebuilding stats cache from DB...")
             val history = roundRepo.lastN(1000000).map { it.number }
             statsCache.rebuildFrom(history)
+            Log.d("Predict", "Cache rebuilt: ${history.size} rounds in ${System.nanoTime() - t0}ns")
         }
 
-        val recentRounds = roundRepo.lastN(1000)
-        if (recentRounds.isEmpty()) return@withContext null
+        // O(1) history access from cache — no DB query
+        val history = statsCache.recentWindow(1000)
+        if (history.isEmpty()) return@withContext null
 
-        val history = recentRounds.map { it.number }
-        val anchorRoundId = recentRounds.first().id
+        // Get anchor round ID from DB (single-row query)
+        val anchorRoundId = roundRepo.lastN(1).firstOrNull()?.id ?: return@withContext null
+        val t1 = System.nanoTime()
 
-        Log.d("Predict", "Building prediction for anchor round $anchorRoundId (${history.size} history)")
-
+        // Build features
         val features = featureEngineer.build(roundId = anchorRoundId, history = history)
+        val t2 = System.nanoTime()
 
-        // Pull current adaptive weights for the ensemble.
+        // Pull current adaptive weights (O(1) — in-memory)
         val weights = weightingEngine.computeWeights(registry.names)
         val rollingAccuracies = registry.names.associateWith { name ->
             weightingEngine.getRollingTop1(name)
         }
+        val t3 = System.nanoTime()
 
-        // Run every model in parallel.
+        // Run every model in parallel
         val outputs = coroutineScope {
             registry.models.map { model ->
                 async(dispatchers.default) {
@@ -76,11 +79,13 @@ class PredictUseCase @Inject constructor(
                 }
             }.map { it.await() }
         }
+        val t4 = System.nanoTime()
 
-        // Persist outputs keyed to the anchor round.
+        // Persist outputs
         predictionRepo.save(anchorRoundId, outputs)
+        val t5 = System.nanoTime()
 
-        // Combine via adaptive ensemble.
+        // Combine via adaptive ensemble
         val combined = adaptive.combine(
             roundId = anchorRoundId,
             epochMs = System.currentTimeMillis(),
@@ -88,8 +93,14 @@ class PredictUseCase @Inject constructor(
             history = history,
             rollingAccuracies = rollingAccuracies
         )
+        val t6 = System.nanoTime()
 
-        Log.d("Predict", "Prediction complete: top=${combined.top1.number} (${"%.1f".format(combined.top1.probability * 100)}%)")
+        Log.d("Predict", "Prediction complete: top=${combined.top1.number} (${"%.1f".format(combined.top1.probability * 100)}%) | " +
+            "cache=${(t1 - t0) / 1_000_000}ms features=${(t2 - t1) / 1_000_000}ms " +
+            "weights=${(t3 - t2) / 1_000_000}ms models=${(t4 - t3) / 1_000_000}ms " +
+            "save=${(t5 - t4) / 1_000_000}ms ensemble=${(t6 - t5) / 1_000_000}ms " +
+            "total=${(t6 - t0) / 1_000_000}ms")
+
         combined
     }
 }

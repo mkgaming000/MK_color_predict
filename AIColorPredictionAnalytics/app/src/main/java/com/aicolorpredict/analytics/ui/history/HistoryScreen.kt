@@ -48,7 +48,10 @@ fun HistoryScreen(
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         Text("History", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
         Text(
-            "${state.totalRounds} rounds — tap a card for details",
+            if (state.totalRounds > state.rounds.size)
+                "Showing ${state.rounds.size} of ${state.totalRounds} rounds — tap a card for details"
+            else
+                "${state.totalRounds} rounds — tap a card for details",
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )

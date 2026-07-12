@@ -19,11 +19,21 @@ data class HistoryUiState(
     val isLoading: Boolean = false,
     val rounds: List<Round> = emptyList(),
     val totalRounds: Int = 0,
+    val pageSize: Int = 100,
     val expandedRoundId: Long? = null,
     val predictionsForExpanded: List<ModelOutput> = emptyList(),
     val errorMessage: String? = null
 )
 
+/**
+ * History ViewModel — paginated.
+ *
+ * Loads 100 rounds at a time (configurable via [pageSize]). The total count
+ * comes from `observeCount()` so the UI can show "showing 100 of 10,000".
+ *
+ * The [rounds] list is always the most recent `pageSize` rounds — older
+ * history is accessed via the page() method if needed in future.
+ */
 @HiltViewModel
 class HistoryViewModel @Inject constructor(
     private val roundRepo: RoundRepository,
@@ -35,12 +45,18 @@ class HistoryViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            roundRepo.observeLastN(100).collectLatest { rounds ->
+            // Observe the most recent 100 rounds for the timeline.
+            roundRepo.observeLastN(_state.value.pageSize).collectLatest { rounds ->
                 _state.value = _state.value.copy(
                     rounds = rounds,
-                    totalRounds = rounds.size,
                     isLoading = false
                 )
+            }
+        }
+        // Observe total count separately so the UI knows the full history size.
+        viewModelScope.launch {
+            roundRepo.observeCount().collectLatest { count ->
+                _state.value = _state.value.copy(totalRounds = count)
             }
         }
     }
