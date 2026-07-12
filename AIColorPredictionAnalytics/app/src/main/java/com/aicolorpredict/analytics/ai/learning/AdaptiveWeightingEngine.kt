@@ -233,7 +233,7 @@ class AdaptiveWeightingEngine @Inject constructor() {
     fun rebuildFrom(records: List<ResolvedRecord>) {
         scores.clear()
         for (r in records) {
-            recordOutcome(r.modelName, r.topPick, r.top3, r.probOfActual, r.actual)
+            recordOutcome(r.modelName, r.topPick, r.top3, r.probOfActual, r.topProbability, r.actual)
         }
     }
 
