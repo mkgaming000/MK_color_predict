@@ -49,11 +49,16 @@ class AdaptiveWeightingEngine @Inject constructor() {
 
     data class ModelScore(
         val modelName: String,
-        var score: Double = 0.5,          // running reward score ∈ [0, 1]
-        var samples: Int = 0,              // total resolved predictions seen
+        var score: Double = 0.5,          // composite reward score ∈ [0, 1]
+        var historicalScore: Double = 0.5,   // EMA of top-1 hit rate
+        var calibrationScore: Double = 0.5,  // inverse Brier (higher = better calibrated)
+        var reliabilityScore: Double = 0.5,  // inverse variance of recent rewards
+        var confidenceScore: Double = 0.5,   // average top-probability assigned
+        var samples: Int = 0,
         var top1Hits: Int = 0,
         var top3Hits: Int = 0,
-        var recentRewards: ArrayDeque<Double> = ArrayDeque()  // for drift detection
+        var recentRewards: ArrayDeque<Double> = ArrayDeque(),
+        var recentTopProbs: ArrayDeque<Double> = ArrayDeque()
     )
 
     private val scores = mutableMapOf<String, ModelScore>()
@@ -84,12 +89,13 @@ class AdaptiveWeightingEngine @Inject constructor() {
     }
 
     /**
-     * Record a resolved prediction and update the model's reward score.
+     * Record a resolved prediction and update the model's 4 scores.
      *
      * @param modelName the model being scored
      * @param topPick the model's top-1 pick
      * @param top3 the model's top-3 picks
      * @param probOfActual the probability the model assigned to the actual outcome
+     * @param topProbability the model's top probability (for confidence tracking)
      * @param actual the observed outcome
      */
     @Synchronized
@@ -98,31 +104,49 @@ class AdaptiveWeightingEngine @Inject constructor() {
         topPick: Int,
         top3: List<Int>,
         probOfActual: Double,
+        topProbability: Double = 0.1,
         actual: Int
     ) {
         val ms = scores.getOrPut(modelName) { ModelScore(modelName) }
 
         val top1Hit = if (topPick == actual) 1.0 else 0.0
         val top3Hit = if (actual in top3) 1.0 else 0.0
-        // Log-loss quality: higher prob → higher quality. Clamp to [0, 1].
+
+        // --- Score 1: Historical (EMA of top-1 hit rate) ---
+        ms.historicalScore = decay * ms.historicalScore + (1.0 - decay) * top1Hit
+
+        // --- Score 2: Calibration (inverse Brier) ---
+        // Brier for this single observation = (probOfActual - 1)² + Σ(other probs)²
+        // Simplified: calibration quality = 1 - (1 - probOfActual)² ∈ [0, 1]
+        val brierQuality = (2.0 * probOfActual - probOfActual * probOfActual).coerceIn(0.0, 1.0)
+        ms.calibrationScore = decay * ms.calibrationScore + (1.0 - decay) * brierQuality
+
+        // --- Score 3: Reliability (inverse variance of recent rewards) ---
         val logLossQuality = probOfActual.coerceIn(1e-6, 1.0).let { p ->
-            // Map p=0.01 → ~0.2, p=0.1 → ~0.5, p=0.5 → ~0.85, p=1.0 → 1.0
             (1.0 + ln(p) / 5.0).coerceIn(0.0, 1.0)
         }
-        // Brier quality: (2p - p² - 1) mapped to [0, 1] — 0 when p=0, 1 when p=1
-        val brierQuality = (2.0 * probOfActual - probOfActual * probOfActual).coerceIn(0.0, 1.0)
-
         val reward = alpha * top1Hit + beta * top3Hit + gamma * logLossQuality + delta * brierQuality
+        ms.recentRewards.addLast(reward)
+        while (ms.recentRewards.size > recentRewardsMax) ms.recentRewards.removeFirst()
+        // Reliability = 1 - normalised_variance of recent rewards
+        val recentMean = ms.recentRewards.average()
+        val recentVar = ms.recentRewards.fold(0.0) { acc, r -> acc + (r - recentMean) * (r - recentMean) } / ms.recentRewards.size.coerceAtLeast(1)
+        ms.reliabilityScore = (1.0 - recentVar * 4.0).coerceIn(0.0, 1.0)  // scale: var=0.25 → reliability 0
 
-        // Exponential moving average
-        ms.score = decay * ms.score + (1.0 - decay) * reward
+        // --- Score 4: Confidence (EMA of top probability) ---
+        ms.recentTopProbs.addLast(topProbability)
+        while (ms.recentTopProbs.size > recentRewardsMax) ms.recentTopProbs.removeFirst()
+        ms.confidenceScore = ms.recentTopProbs.average().coerceIn(0.0, 1.0)
+
+        // Composite score = weighted average of all 4
+        ms.score = 0.35 * ms.historicalScore +
+                   0.25 * ms.calibrationScore +
+                   0.20 * ms.reliabilityScore +
+                   0.20 * ms.confidenceScore
+
         ms.samples++
         if (top1Hit > 0) ms.top1Hits++
         if (top3Hit > 0) ms.top3Hits++
-
-        // Track recent rewards for drift detection
-        ms.recentRewards.addLast(reward)
-        while (ms.recentRewards.size > recentRewardsMax) ms.recentRewards.removeFirst()
     }
 
     /**
@@ -219,6 +243,10 @@ class AdaptiveWeightingEngine @Inject constructor() {
         ModelScoreSnapshot(
             modelName = it.modelName,
             score = it.score,
+            historicalScore = it.historicalScore,
+            calibrationScore = it.calibrationScore,
+            reliabilityScore = it.reliabilityScore,
+            confidenceScore = it.confidenceScore,
             samples = it.samples,
             top1Accuracy = if (it.samples > 0) it.top1Hits.toDouble() / it.samples else 0.0,
             top3Accuracy = if (it.samples > 0) it.top3Hits.toDouble() / it.samples else 0.0,
@@ -231,12 +259,17 @@ class AdaptiveWeightingEngine @Inject constructor() {
         val topPick: Int,
         val top3: List<Int>,
         val probOfActual: Double,
+        val topProbability: Double,
         val actual: Int
     )
 
     data class ModelScoreSnapshot(
         val modelName: String,
         val score: Double,
+        val historicalScore: Double,
+        val calibrationScore: Double,
+        val reliabilityScore: Double,
+        val confidenceScore: Double,
         val samples: Int,
         val top1Accuracy: Double,
         val top3Accuracy: Double,

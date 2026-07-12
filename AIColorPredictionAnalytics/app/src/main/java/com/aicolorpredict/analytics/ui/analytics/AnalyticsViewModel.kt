@@ -8,6 +8,7 @@ import com.aicolorpredict.analytics.domain.model.AccuracyMetrics
 import com.aicolorpredict.analytics.feature.TransitionAnalytics
 import com.aicolorpredict.analytics.domain.model.TransitionStats
 import android.util.Log
+import com.aicolorpredict.analytics.ai.learning.BacktestingEngine
 import com.aicolorpredict.analytics.metrics.MetricsCalculator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,13 +25,15 @@ data class AnalyticsUiState(
     val transitionStats: TransitionStats? = null,
     val transitionFrom: Int = 0,
     val systemMetrics: AccuracyMetrics = AccuracyMetrics.EMPTY,
+    val backtestReport: BacktestingEngine.BacktestReport? = null,
     val errorMessage: String? = null
 )
 
 @HiltViewModel
 class AnalyticsViewModel @Inject constructor(
     private val roundRepo: RoundRepository,
-    private val predictionRepo: PredictionRepository
+    private val predictionRepo: PredictionRepository,
+    private val backtestingEngine: BacktestingEngine
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(AnalyticsUiState(isLoading = true))
@@ -51,13 +54,15 @@ class AnalyticsViewModel @Inject constructor(
                 val sys = MetricsCalculator.systemMetrics(perModel)
                 val history = roundRepo.lastN(2000).map { it.number }
                 val trans = TransitionAnalytics.build(_state.value.transitionFrom, history)
+                val backtest = backtestingEngine.runBacktest(maxSamples = 500)
                 _state.value = _state.value.copy(
                     isLoading = false,
                     numberFrequency = hist,
                     hotNumbers = hot,
                     coldNumbers = cold,
                     transitionStats = trans,
-                    systemMetrics = sys
+                    systemMetrics = sys,
+                    backtestReport = backtest
                 )
             } catch (t: Throwable) {
                 _state.value = _state.value.copy(isLoading = false, errorMessage = t.message ?: "Unknown error")

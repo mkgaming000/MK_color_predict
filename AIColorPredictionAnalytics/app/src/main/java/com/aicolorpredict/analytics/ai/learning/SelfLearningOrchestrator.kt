@@ -74,6 +74,7 @@ class SelfLearningOrchestrator @Inject constructor(
                     topPick = output.topPick,
                     top3 = top3,
                     probOfActual = probOfActual,
+                    topProbability = output.topProbability,
                     actual = actual
                 )
             }
@@ -115,6 +116,7 @@ class SelfLearningOrchestrator @Inject constructor(
                         topPick = output.topPick,
                         top3 = top3,
                         probOfActual = probOfActual,
+                        topProbability = output.topProbability,
                         actual = number
                     )
                 }

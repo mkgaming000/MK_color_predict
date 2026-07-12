@@ -151,20 +151,41 @@ class EnsembleModel(
         history: List<Int>
     ): String {
         val sb = StringBuilder()
-        sb.append("Ensemble favours number $topPick at ${(topProb * 100).format(1)}% (consensus: ${consensus.label}). ")
-        sb.append("Model agreement: ")
+        // 1. What the ensemble favours and why
+        sb.append("Ensemble favours number $topPick at ${(topProb * 100).format(1)}% ")
+        sb.append("(consensus: ${consensus.label}). ")
+
+        // 2. Historical evidence — sample size
+        sb.append("Based on ${history.size} historical rounds. ")
+
+        // 3. Model agreement
         val topPicks = outputs.map { it.topPick }
         val grouped = topPicks.groupBy { it }.entries.sortedByDescending { it.value.size }
-        sb.append(grouped.joinToString(", ") { "${it.key}→${it.value.size} model(s)" })
-        sb.append(". ")
-        // Top 3 weighted contributors
+        val agreementPct = (grouped.first().value.size.toDouble() / outputs.size * 100).format(0)
+        sb.append("${grouped.first().value.size}/${outputs.size} models ($agreementPct%) agree on the top pick. ")
+
+        // 4. Top 3 weighted contributors with their individual confidence
         val top3 = outputs.indices.sortedByDescending { weights[it] }.take(3)
         sb.append("Top contributors: ")
         sb.append(top3.joinToString(", ") { i ->
-            "${outputs[i].modelName} (${(weights[i] * 100).format(0)}%)"
+            "${outputs[i].modelName} (${"%.0f".format(weights[i] * 100)}% weight, conf ${"%.0f".format(outputs[i].confidence * 100)}%)"
         })
         sb.append(". ")
-        // Pattern summary
+
+        // 5. Confidence limitations — honest disclaimer
+        sb.append("This is a statistical estimate from historical data. ")
+        if (topProb < 0.20) {
+            sb.append("Low separation — no number stands out strongly. ")
+        } else if (topProb < 0.30) {
+            sb.append("Moderate separation — the top pick has a slight edge. ")
+        } else {
+            sb.append("Strong separation — the top pick is notably above average. ")
+        }
+        if (history.size < 50) {
+            sb.append("Limited history (${"${history.size}"} rounds) — estimates are less reliable. ")
+        }
+
+        // 6. Pattern summary
         val pattern = PatternDetector.summarise(history)
         sb.append("Pattern detection: $pattern")
         return sb.toString().trim()

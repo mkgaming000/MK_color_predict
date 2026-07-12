@@ -74,6 +74,34 @@ fun AnalyticsScreen(
             }
         }
 
+        // Backtesting report
+        state.backtestReport?.let { bt ->
+            GlassCard {
+                Text("Historical Back-testing", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+                Text(bt.description, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Spacer(Modifier.height(8.dp))
+                if (bt.perModel.isNotEmpty()) {
+                    // Header
+                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                        Text("Model", modifier = Modifier.weight(1.4f), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text("Top1", modifier = Modifier.weight(0.6f), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text("Top3", modifier = Modifier.weight(0.6f), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text("F1", modifier = Modifier.weight(0.6f), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text("N", modifier = Modifier.weight(0.4f), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    }
+                    bt.perModel.take(8).forEach { mb ->
+                        Row(modifier = Modifier.fillMaxWidth().padding(vertical = 3.dp), horizontalArrangement = Arrangement.SpaceBetween) {
+                            Text(mb.modelName, modifier = Modifier.weight(1.4f), style = MaterialTheme.typography.bodySmall, maxLines = 1)
+                            Text("${"%.1f".format(mb.top1Accuracy * 100)}%", modifier = Modifier.weight(0.6f), style = MaterialTheme.typography.labelMedium)
+                            Text("${"%.1f".format(mb.top3Accuracy * 100)}%", modifier = Modifier.weight(0.6f), style = MaterialTheme.typography.labelMedium)
+                            Text("${"%.1f".format(mb.f1 * 100)}%", modifier = Modifier.weight(0.6f), style = MaterialTheme.typography.labelMedium)
+                            Text("${mb.samples}", modifier = Modifier.weight(0.4f), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        }
+                    }
+                }
+            }
+        }
+
         // Frequency chart
         if (state.numberFrequency.isNotEmpty()) {
             GlassCard {
