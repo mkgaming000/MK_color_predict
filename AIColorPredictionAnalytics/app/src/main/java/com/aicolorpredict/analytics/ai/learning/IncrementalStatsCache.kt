@@ -46,7 +46,7 @@ class IncrementalStatsCache @Inject constructor() {
     private var currentIndex = 0
 
     /** Rebuild the cache from a full history. Call once on cold start. */
-    synchronized fun rebuildFrom(history: List<Int>) {
+    @Synchronized fun rebuildFrom(history: List<Int>) {
         // Reset
         java.util.Arrays.fill(numberCounts, 0)
         java.util.Arrays.fill(colorCounts, 0)
@@ -65,7 +65,7 @@ class IncrementalStatsCache @Inject constructor() {
     }
 
     /** Add a single new round in O(1). */
-    synchronized fun update(number: Int) {
+    @Synchronized fun update(number: Int) {
         if (!initialized) return
         applyRound(number)
     }
