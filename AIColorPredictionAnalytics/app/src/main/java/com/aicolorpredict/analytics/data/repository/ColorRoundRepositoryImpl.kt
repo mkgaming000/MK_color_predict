@@ -22,7 +22,7 @@ class ColorRoundRepositoryImpl @Inject constructor(
         val now = timestamp ?: System.currentTimeMillis()
         val prevRound = dao.getLastN(1).firstOrNull()
         val prevColor = if (prevRound != null) AppColor.fromCode(prevRound.color) else null
-        val streak = if (prevColor == color) prevRound.streak + 1 else 1
+        val streak = if (prevRound != null && prevColor == color) prevRound.streak + 1 else 1
         val seqIdx = (dao.maxSequenceIndex() ?: -1) + 1
         val round = ColorRound(
             id = 0, timestamp = now, color = color,
